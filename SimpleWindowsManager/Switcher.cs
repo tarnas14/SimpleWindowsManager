@@ -47,7 +47,8 @@
 
         private void SwitchWindows()
         {
-            Console.WriteLine("handling hotkey");
+            var windows = WindowLister.GetOpenWindows();
+            _windowTitles.DataSource = windows;
             Activate();
         }
     }
