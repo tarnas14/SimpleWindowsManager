@@ -1,55 +1,38 @@
 ﻿namespace SimpleWindowsManager
 {
     using System;
-    using System.ComponentModel;
     using System.Windows.Forms;
     using Common;
 
     public partial class Switcher : Form
     {
-        private const int Modifier = (int)KeyModifiers.Shift | (int)KeyModifiers.Control | (int)KeyModifiers.WinKey;
-        private const Keys Key = Keys.Q;
-
         private readonly GlobalHotkey _switchWindowsGlobalHoteky;
-        private readonly NotifyIcon _notifyIcon;
 
         public Switcher()
         {
             InitializeComponent();
-            Load += Switcher_Load;
-            Closing += Switcher_Closing;
-            _notifyIcon = new NotifyIcon();
-            _switchWindowsGlobalHoteky = new GlobalHotkey(Modifier, Key, this);
-        }
-
-        private void Switcher_Closing(object sender, CancelEventArgs e)
-        {
-            _switchWindowsGlobalHoteky.Unregiser();
-        }
-
-        private void Switcher_Load(object sender, EventArgs e)
-        {
-            if (!_switchWindowsGlobalHoteky.Register())
+            _switchWindowsGlobalHoteky = new GlobalHotkey
             {
-                Console.WriteLine("This hotkey is already registered");
-            }
+                Shift = true,
+                Ctrl = true,
+                WindowsKey = true,
+                KeyCode = Keys.Q,
+                Enabled = true
+            };
+            _switchWindowsGlobalHoteky.HotkeyPressed += SwitchWindows;
         }
 
-        protected override void WndProc(ref Message m)
-        {
-            if (GlobalHotkey.IsHotkeyMessage(m) && _switchWindowsGlobalHoteky.HotkeyPressed(m))
-            {
-                SwitchWindows();
-            }
-
-            base.WndProc(ref m);
-        }
-
-        private void SwitchWindows()
+        private void SwitchWindows(object sender, EventArgs e)
         {
             var windows = WindowLister.GetOpenWindows();
             _windowTitles.DataSource = windows;
             Activate();
+        }
+
+        public new void Dispose()
+        {
+            _switchWindowsGlobalHoteky.Dispose();
+            base.Dispose();
         }
     }
 }

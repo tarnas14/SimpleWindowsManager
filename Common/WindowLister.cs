@@ -8,7 +8,7 @@ namespace Common
     {
         public static IList<WindowRepresentation> GetOpenWindows()
         {
-            return SystemWindow.AllToplevelWindows.Where(AWindowWeCanGetTo).Select(systemWindow => new WindowRepresentation(systemWindow)).ToList();
+            return SystemWindow.AllToplevelWindows.Where(AWindowWeCanGetTo).Select(systemWindow => new WindowRepresentation(systemWindow)).OrderBy(representation => representation.Title).ToList();
         }
 
         private static bool AWindowWeCanGetTo(SystemWindow systemWindow)

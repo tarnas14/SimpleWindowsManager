@@ -1,62 +1,63 @@
 ﻿namespace Common
 {
     using System;
-    using System.Runtime.InteropServices;
     using System.Windows.Forms;
+    using ManagedWinapi;
 
-    public class GlobalHotkey
+    public class GlobalHotkey : IDisposable
     {
-        private const int WM_HOTKEY_MSG_ID = 0x0312;
+        private readonly Hotkey _hotkey;
 
-        private readonly int _modifier;
-        private readonly Keys _key;
-        private IntPtr _hWnd;
-        private readonly int _id;
-
-        public GlobalHotkey(int modifier, Keys key, Form form)
+        public GlobalHotkey()
         {
-            _modifier = modifier;
-            _key = key;
-            _hWnd = form.Handle;
-            _id = GetHashCode();
+            _hotkey = new Hotkey();
         }
 
-        public bool Register()
+        public bool Alt
         {
-            return RegisterHotKey(_hWnd, _id, _modifier, (int)_key);
+            get { return _hotkey.Alt; }
+            set { _hotkey.Alt = value; }
         }
 
-        public bool Unregiser()
+        public bool Ctrl
         {
-            return UnregisterHotKey(_hWnd, _id);
+            get { return _hotkey.Ctrl; }
+            set { _hotkey.Ctrl = value; }
         }
 
-        public override int GetHashCode()
+        public bool Enabled
         {
-            return _modifier ^ (int)_key ^ _hWnd.ToInt32();
+            get { return _hotkey.Enabled; }
+            set { _hotkey.Enabled = value; }
         }
 
-        public bool HotkeyPressed(Message message)
+        public bool Shift
         {
-            if (!IsHotkeyMessage(message))
-            {
-                return false;
-            }
-
-            Keys messageKey = (Keys)(((int)message.LParam >> 16) & 0xFFFF);
-            var messageModifier =(int)message.LParam & 0xFFFF;
-            return messageKey == _key && messageModifier == _modifier;
+            get { return _hotkey.Shift; }
+            set { _hotkey.Shift = value; }
         }
 
-        public static bool IsHotkeyMessage(Message message)
+        public bool WindowsKey
         {
-            return message.Msg == WM_HOTKEY_MSG_ID;
+            get { return _hotkey.WindowsKey; }
+            set { _hotkey.WindowsKey = value; }
         }
 
-        [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+        public Keys KeyCode
+        {
+            get { return _hotkey.KeyCode; }
+            set { _hotkey.KeyCode = value; }
+        }
 
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        public event EventHandler HotkeyPressed
+        {
+            add { _hotkey.HotkeyPressed += value; }
+            remove { _hotkey.HotkeyPressed -= value; }
+        }
+
+        public void Dispose()
+        {
+            _hotkey.Dispose();
+        }
     }
 }
