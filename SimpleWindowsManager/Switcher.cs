@@ -11,7 +11,6 @@
 
         public Switcher()
         {
-            Visible = false;
             InitializeComponent();
             _switchWindowsGlobalHoteky = new GlobalHotkey
             {
