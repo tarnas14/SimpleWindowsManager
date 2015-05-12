@@ -3,7 +3,7 @@ namespace Common
     using System;
     using ManagedWinapi.Windows;
 
-    public class WindowRepresentation
+    public class WindowRepresentation : ICanBeSearchedFor
     {
         private readonly SystemWindow _systemWindow;
 

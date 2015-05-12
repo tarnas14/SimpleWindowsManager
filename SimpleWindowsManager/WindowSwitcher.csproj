@@ -45,6 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCompleteCombobox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AutoCompleteCombobox.Designer.cs">
+      <DependentUpon>AutoCompleteCombobox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ElementSelectedEventArgs.cs" />
     <Compile Include="Switcher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -53,6 +60,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AutoCompleteCombobox.resx">
+      <DependentUpon>AutoCompleteCombobox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Switcher.resx">
       <DependentUpon>Switcher.cs</DependentUpon>
     </EmbeddedResource>

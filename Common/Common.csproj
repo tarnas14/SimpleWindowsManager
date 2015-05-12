@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalHotkey.cs" />
+    <Compile Include="ICanBeSearchedFor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowLister.cs" />
     <Compile Include="WindowRepresentation.cs" />

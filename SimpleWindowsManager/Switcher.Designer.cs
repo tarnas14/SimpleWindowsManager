@@ -1,5 +1,7 @@
 ﻿namespace SimpleWindowsManager
 {
+    using Common;
+
     partial class Switcher
     {
         /// <summary>
@@ -28,25 +30,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._windowTitles = new System.Windows.Forms.ComboBox();
+            this._windowTitles = new AutoCompleteCombobox();
             this.SuspendLayout();
             // 
             // _windowTitles
             // 
-            this._windowTitles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._windowTitles.FormattingEnabled = true;
             this._windowTitles.Location = new System.Drawing.Point(12, 12);
             this._windowTitles.Name = "_windowTitles";
-            this._windowTitles.Size = new System.Drawing.Size(209, 21);
-            this._windowTitles.TabIndex = 0;
+            this._windowTitles.Size = new System.Drawing.Size(322, 29);
+            this._windowTitles.TabIndex = 1;
             // 
             // Switcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(233, 48);
+            this.ClientSize = new System.Drawing.Size(346, 49);
             this.Controls.Add(this._windowTitles);
             this.Name = "Switcher";
             this.Text = "Switcher";
@@ -56,7 +54,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox _windowTitles;
+        private AutoCompleteCombobox _windowTitles;
+
     }
 }
 
