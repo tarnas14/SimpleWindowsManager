@@ -1,65 +1,20 @@
 namespace Common
 {
-    using System;
     using System.Collections.Generic;
-    using System.Runtime.InteropServices;
-    using System.Text;
+    using System.Linq;
+    using ManagedWinapi.Windows;
 
     public static class WindowLister
     {
-        private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int GetWindowTextLength(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        private static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        private static extern bool IsWindow(IntPtr hWnd);
-
-        public static IEnumerable<WindowRepresentation> GetOpenWindows()
+        public static IList<WindowRepresentation> GetOpenWindows()
         {
-            IntPtr found = IntPtr.Zero;
-            var windows = new List<WindowRepresentation>();
+            return SystemWindow.AllToplevelWindows.Where(AWindowWeCanGetTo).Select(systemWindow => new WindowRepresentation(systemWindow)).ToList();
+        }
 
-            EnumWindows(delegate(IntPtr wnd, IntPtr param)
-            {
-                string windowText = GetWindowText(wnd);
-                string className = string.Empty;
-
-                if (string.IsNullOrEmpty(windowText) || !IsWindow(wnd))
-                {
-                    return true;
-                }
-
-                windows.Add(new WindowRepresentation
-                {
-                    Pointer = wnd,
-                    Title = windowText,
-                    ClassName = className
-                });
-
-                return true;
-            }, IntPtr.Zero);
-
-            return windows;
-        } 
-
-        private static string GetWindowText(IntPtr hWnd)
+        private static bool AWindowWeCanGetTo(SystemWindow systemWindow)
         {
-            int size = GetWindowTextLength(hWnd);
-            if (size++ > 0)
-            {
-                var builder = new StringBuilder(size);
-                GetWindowText(hWnd, builder, builder.Capacity);
-                return builder.ToString();
-            }
-
-            return String.Empty;
+            return !string.IsNullOrEmpty(systemWindow.Title) && systemWindow.Process.ProcessName != "explorer" &&
+                   systemWindow.Visible;
         }
     }
 }

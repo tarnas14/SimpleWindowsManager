@@ -10,6 +10,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSwitcher", "SimpleWin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{0869C14F-F3E0-4E3D-B740-721C1A1315C3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{89A2013E-1D9C-4B6A-80AA-54E24E644B3E}"
+	ProjectSection(SolutionItems) = preProject
+		ManagedWinapi.dll = ManagedWinapi.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
