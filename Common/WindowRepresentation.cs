@@ -1,6 +1,8 @@
 namespace Common
 {
     using System;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
     using ManagedWinapi.Windows;
 
     public class WindowRepresentation : ICanBeSearchedFor
@@ -35,5 +37,25 @@ namespace Common
                 _systemWindow.Process.ProcessName.ToLowerInvariant().Contains(searchExpression.ToLowerInvariant()) || 
                 Title.ToLowerInvariant().Contains(searchExpression.ToLowerInvariant());
         }
+
+        public void BringToFront()
+        {
+            if (_systemWindow.WindowState == FormWindowState.Minimized)
+            {
+                ShowWindow(_systemWindow.HWnd, SW_RESTORE);
+            }
+            else
+            {
+                BringWindowToTop(_systemWindow.HWnd);
+            }
+        }
+
+        [DllImport("user32.dll")]
+        private static extern int ShowWindow(IntPtr hWnd, uint Msg);
+
+        [DllImport("user32.dll")]
+        private static extern int BringWindowToTop(IntPtr hWnd);
+
+        private const uint SW_RESTORE = 0x09;
     }
 }

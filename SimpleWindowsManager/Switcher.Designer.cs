@@ -30,23 +30,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._windowTitles = new AutoCompleteCombobox();
+            this._windowTitles = new SimpleWindowsManager.AutoCompleteCombobox();
             this.SuspendLayout();
             // 
             // _windowTitles
             // 
+            this._windowTitles.AutoCompleteAfterCharacterCount = 3;
             this._windowTitles.Location = new System.Drawing.Point(12, 12);
             this._windowTitles.Name = "_windowTitles";
             this._windowTitles.Size = new System.Drawing.Size(322, 29);
             this._windowTitles.TabIndex = 1;
+            this._windowTitles.Values = null;
             // 
             // Switcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(346, 49);
+            this.ControlBox = false;
             this.Controls.Add(this._windowTitles);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Switcher";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Switcher";
             this.ResumeLayout(false);
 

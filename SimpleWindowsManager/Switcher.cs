@@ -11,6 +11,7 @@
 
         public Switcher()
         {
+            Visible = false;
             InitializeComponent();
             _switchWindowsGlobalHoteky = new GlobalHotkey
             {
@@ -26,16 +27,22 @@
 
         private void GoToWindow(object sender, ElementSelectedEventArgs e)
         {
-            var selectedItem = e.SelectedItem as WindowRepresentation;
-            throw new NotImplementedException();
+            var selectedWindow = e.SelectedItem as WindowRepresentation;
+            if (selectedWindow == null)
+            {
+                return;
+            }
+            selectedWindow.BringToFront();
         }
 
         private void SelectWindow(object sender, EventArgs e)
         {
             var searchable = new List<ICanBeSearchedFor>();
-            searchable.AddRange(WindowLister.GetOpenWindows());
+            var windows = WindowLister.GetOpenWindows();
+            searchable.AddRange(windows);
             _windowTitles.Values = searchable;
-            Show();
+            Visible = true;
+            BringToFront();
             Activate();
         }
 
