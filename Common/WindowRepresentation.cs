@@ -28,5 +28,12 @@ namespace Common
         {
             return string.Format("{0}.{1}", _systemWindow.Process.ProcessName, Title);
         }
+
+        public bool Matches(string searchExpression)
+        {
+            return 
+                _systemWindow.Process.ProcessName.ToLowerInvariant().Contains(searchExpression.ToLowerInvariant()) || 
+                Title.ToLowerInvariant().Contains(searchExpression.ToLowerInvariant());
+        }
     }
 }
