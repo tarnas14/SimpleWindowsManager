@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
     using Common;
 
@@ -36,11 +37,12 @@
 
         private void SelectWindow(object sender, EventArgs e)
         {
-            var searchable = new List<ICanBeSearchedFor>();
-            var windows = WindowLister.GetOpenWindows();
-            searchable.AddRange(windows);
-            _windowTitles.Values = searchable;
-            Visible = true;
+            Task.Run(() =>{
+                var searchable = new List<ICanBeSearchedFor>();
+                var windows = WindowLister.GetOpenWindows();
+                searchable.AddRange(windows);
+                _windowTitles.Values = searchable;
+            });
             BringToFront();
             Activate();
         }
