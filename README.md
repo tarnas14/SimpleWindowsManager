@@ -1,7 +1,7 @@
 # SimpleWindowsManager
 
 Planned functionality:
-  - [ ] switching windows using only keyboard (kinda sorta working)
+  - [x] switching windows using only keyboard (kinda sorta working)
   - [ ] moving active window around a pre-configured grid
 
 TODO:
