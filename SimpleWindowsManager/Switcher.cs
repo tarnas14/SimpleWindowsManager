@@ -2,16 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
     using Common;
 
     public partial class Switcher : Form
     {
+        private readonly WindowLister _windowLister;
         private readonly GlobalHotkey _switchWindowsGlobalHoteky;
 
-        public Switcher()
+        public Switcher(WindowLister windowLister)
         {
+            _windowLister = windowLister;
             InitializeComponent();
             _switchWindowsGlobalHoteky = new GlobalHotkey
             {
@@ -37,12 +38,9 @@
 
         private void SelectWindow(object sender, EventArgs e)
         {
-            Task.Run(() =>{
-                var searchable = new List<ICanBeSearchedFor>();
-                var windows = WindowLister.GetOpenWindows();
-                searchable.AddRange(windows);
-                _windowTitles.Values = searchable;
-            });
+            var searchable = new List<ICanBeSearchedFor>();
+            searchable.AddRange(_windowLister.OpenWindows);
+            _windowTitles.Values = searchable;
             BringToFront();
             Activate();
         }

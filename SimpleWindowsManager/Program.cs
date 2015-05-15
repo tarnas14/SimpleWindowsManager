@@ -3,6 +3,8 @@ using System.Windows.Forms;
 
 namespace SimpleWindowsManager
 {
+    using Common;
+
     class Program
     {
         private NotifyIcon _notifyIcon;
@@ -27,8 +29,11 @@ namespace SimpleWindowsManager
 
         public void Run()
         {
-            var mainForm = new Switcher();
-            Application.Run(mainForm);
+            using (var lister = new WindowLister())
+            {
+                var mainForm = new Switcher(lister);
+                Application.Run(mainForm);
+            }
         }
     }
 }
