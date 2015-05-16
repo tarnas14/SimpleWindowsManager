@@ -1,18 +1,10 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace SimpleWindowsManager
+﻿namespace SimpleWindowsManager
 {
+    using System;
+    using System.Windows.Forms;
+
     class Program
     {
-        private NotifyIcon _notifyIcon;
-
-        public Program()
-        {
-            _notifyIcon = new NotifyIcon();
-            _notifyIcon.Visible = true;
-        }
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
