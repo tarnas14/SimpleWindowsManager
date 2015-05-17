@@ -15,6 +15,7 @@
         public Switcher()
         {
             InitializeComponent();
+            WindowState = FormWindowState.Minimized;
             InitializeTrayIcon();
             _switchWindowsGlobalHoteky = new GlobalHotkey
             {
@@ -45,6 +46,7 @@
         private void ShowSwitcher()
         {
             Visible = true;
+            WindowState = FormWindowState.Normal;
             BringToFront();
             Activate();
         }
@@ -56,7 +58,13 @@
             {
                 return;
             }
+            HideSwitcher();
             selectedWindow.BringToFront();
+        }
+
+        private void HideSwitcher()
+        {
+            WindowState = FormWindowState.Minimized;
         }
 
         private void SelectWindow(object sender, EventArgs e)
