@@ -8,13 +8,14 @@
 
     public partial class AutoCompleteCombobox : UserControl
     {
-        public IList<ICanBeSearchedFor> Values { get; set; }
+        public IList<ICanBeSearchedFor> Values { get; private set; }
         public event EventHandler<ElementSelectedEventArgs> ItemSelected;
         public int AutoCompleteAfterCharacterCount { get; set; }
 
         public AutoCompleteCombobox()
         {
             InitializeComponent();
+            Values = new List<ICanBeSearchedFor>();
             AutoCompleteAfterCharacterCount = 3;
             _comboBox.KeyUp += ComboBoxOnKeyUp;
         }

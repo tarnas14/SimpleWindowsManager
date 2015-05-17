@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Common;
@@ -9,14 +10,27 @@
 
     public partial class Switcher : Form
     {
-        private readonly GlobalHotkey _switchWindowsGlobalHoteky;
+        private GlobalHotkey _switchWindowsGlobalHoteky;
         private NotifyIcon _notifyIcon;
 
         public Switcher()
         {
             InitializeComponent();
-            WindowState = FormWindowState.Minimized;
             InitializeTrayIcon();
+            SetupGlobalHotkey();
+            SetupWindowSelection();
+        }
+
+        private void InitializeTrayIcon()
+        {
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.Visible = true;
+            _notifyIcon.Icon = Resources.PlaceholderIcon;
+            _notifyIcon.Text = "SimpleWindowsManager";
+        }
+
+        private void SetupGlobalHotkey()
+        {
             _switchWindowsGlobalHoteky = new GlobalHotkey
             {
                 Shift = true,
@@ -26,29 +40,12 @@
                 Enabled = true
             };
             _switchWindowsGlobalHoteky.HotkeyPressed += SelectWindow;
+        }
+
+        private void SetupWindowSelection()
+        {
             _windowTitles.ItemSelected += GoToWindow;
-        }
-
-        private void InitializeTrayIcon()
-        {
-            _notifyIcon = new NotifyIcon();
-            _notifyIcon.Visible = true;
-            _notifyIcon.Icon = Resources.PlaceholderIcon;
-            _notifyIcon.Text = "SimpleWindowsManager";
-            _notifyIcon.DoubleClick += BringSwitcherToFront;
-        }
-
-        private void BringSwitcherToFront(object sender, EventArgs e)
-        {
-            ShowSwitcher();
-        }
-
-        private void ShowSwitcher()
-        {
-            Visible = true;
-            WindowState = FormWindowState.Normal;
-            BringToFront();
-            Activate();
+            UpdateOpenWindowsList();
         }
 
         private void GoToWindow(object sender, ElementSelectedEventArgs e)
@@ -58,30 +55,32 @@
             {
                 return;
             }
-            HideSwitcher();
             selectedWindow.BringToFront();
-        }
-
-        private void HideSwitcher()
-        {
-            WindowState = FormWindowState.Minimized;
         }
 
         private void SelectWindow(object sender, EventArgs e)
         {
-            LoadOpenWindows();
+            UpdateOpenWindowsList();
             ShowSwitcher();
         }
 
-        private void LoadOpenWindows()
+        private void UpdateOpenWindowsList()
         {
             Task.Run(() =>
             {
                 var searchable = new List<ICanBeSearchedFor>();
                 var windows = WindowLister.GetOpenWindows();
                 searchable.AddRange(windows);
-                _windowTitles.Values = searchable;
+                searchable.Where(element => _windowTitles.Values.All(window => window.Id != element.Id)).ToList().ForEach(_windowTitles.Values.Add);
+                _windowTitles.Values.ToList().RemoveAll(window => searchable.All(element => element.Id != window.Id));
             });
+        }
+
+        private void ShowSwitcher()
+        {
+            Visible = true;
+            BringToFront();
+            Activate();
         }
 
         public new void Dispose()

@@ -40,7 +40,6 @@
             this._windowTitles.Name = "_windowTitles";
             this._windowTitles.Size = new System.Drawing.Size(322, 29);
             this._windowTitles.TabIndex = 1;
-            this._windowTitles.Values = null;
             // 
             // Switcher
             // 

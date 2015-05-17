@@ -38,6 +38,11 @@ namespace Common
                 Title.ToLowerInvariant().Contains(searchExpression.ToLowerInvariant());
         }
 
+        public int Id
+        {
+            get { return _systemWindow.Process.Id; }
+        }
+
         public void BringToFront()
         {
             if (_systemWindow.WindowState == FormWindowState.Minimized)
