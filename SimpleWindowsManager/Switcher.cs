@@ -28,6 +28,24 @@
             _notifyIcon.Visible = true;
             _notifyIcon.Icon = Icon.FromHandle(Resources.TrayIcon.GetHicon());
             _notifyIcon.Text = "SimpleWindowsManager";
+
+            var contextMenu = new ContextMenu();
+            var bringToFrontMenuItem = contextMenu.MenuItems.Add("Bring to front");
+            var exitMenuItem = contextMenu.MenuItems.Add("Exit");
+            _notifyIcon.ContextMenu = contextMenu;
+
+            bringToFrontMenuItem.Click += BringSwitcherToFront;
+            exitMenuItem.Click += CloseSwitcher;
+        }
+
+        private void CloseSwitcher(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void BringSwitcherToFront(object sender, EventArgs e)
+        {
+            ShowSwitcher();
         }
 
         private void SetupGlobalHotkey()
