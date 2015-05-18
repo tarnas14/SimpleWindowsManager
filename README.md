@@ -11,5 +11,5 @@ TODO:
   - [ ] remove WindowSwitcher from alt-tab list
 
 FOUND ISSUES:
-  - [ ] slow response for the global hotkey (maybe try catching it closer to the OS API)
-  - [ ] the combobox text gets cleared randomly as you type
+  - [x] slow response for the global hotkey (maybe try catching it closer to the OS API)
+  - [x] the combobox text gets cleared randomly as you type
