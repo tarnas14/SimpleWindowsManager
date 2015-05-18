@@ -48,6 +48,7 @@
                 return;
             }
 
+            _comboBox.DroppedDown = true;
             var searchExpression = _comboBox.Text;
             var matchingItems = Values.Where(element => element.Matches(searchExpression)).ToList();
 
@@ -62,8 +63,6 @@
             }
 
             _comboBox.Items.AddRange(matchingItems.ToArray());
-            _comboBox.SelectedIndex = -1;
-            _comboBox.DroppedDown = true;
         }
 
         private bool AcceptedItem(KeyEventArgs keyEventArgs)
@@ -75,7 +74,7 @@
         private bool IsInput(KeyEventArgs keyEventArgs)
         {
             return
-                !(new List<Keys> { Keys.Up, Keys.Down, Keys.Left, Keys.Right, Keys.Enter, Keys.Back, Keys.Delete, Keys.Home, Keys.End, Keys.Shift, Keys.ShiftKey, Keys.LShiftKey, Keys.Escape }.Contains(keyEventArgs.KeyCode))
+                !(new List<Keys> { Keys.Up, Keys.Down, Keys.Left, Keys.Right, Keys.Enter, Keys.Delete, Keys.Home, Keys.End, Keys.Shift, Keys.ShiftKey, Keys.LShiftKey, Keys.Escape }.Contains(keyEventArgs.KeyCode))
                 && !keyEventArgs.Alt && !keyEventArgs.Shift && !keyEventArgs.Control;
         }
     }

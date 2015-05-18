@@ -19,8 +19,10 @@
 
         public void Run()
         {
-            var mainForm = new Switcher();
-            Application.Run(mainForm);
+            using (var mainForm = new Switcher())
+            {
+                Application.Run(mainForm);
+            }
         }
     }
 }
