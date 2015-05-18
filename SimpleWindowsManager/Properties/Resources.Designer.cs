@@ -61,12 +61,12 @@ namespace SimpleWindowsManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon PlaceholderIcon {
+        internal static System.Drawing.Bitmap TrayIcon {
             get {
-                object obj = ResourceManager.GetObject("PlaceholderIcon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("TrayIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

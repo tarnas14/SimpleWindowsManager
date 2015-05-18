@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -25,7 +26,7 @@
         {
             _notifyIcon = new NotifyIcon();
             _notifyIcon.Visible = true;
-            _notifyIcon.Icon = Resources.PlaceholderIcon;
+            _notifyIcon.Icon = Icon.FromHandle(Resources.TrayIcon.GetHicon());
             _notifyIcon.Text = "SimpleWindowsManager";
         }
 

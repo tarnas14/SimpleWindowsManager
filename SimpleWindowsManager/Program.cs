@@ -19,10 +19,10 @@
 
         public void Run()
         {
-            using (var mainForm = new Switcher())
-            {
-                Application.Run(mainForm);
-            }
+            var mainForm = new Switcher();
+            Application.Run(mainForm);
+
+            mainForm.Dispose();
         }
     }
 }
