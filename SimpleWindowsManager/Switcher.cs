@@ -20,6 +20,12 @@
             InitializeTrayIcon();
             SetupGlobalHotkey();
             SetupWindowSelection();
+            HideWindowFromAltTabList();
+        }
+
+        private void HideWindowFromAltTabList()
+        {
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
         }
 
         private void InitializeTrayIcon()
