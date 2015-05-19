@@ -11,14 +11,13 @@
 
     public partial class Switcher : Form
     {
-        private GlobalHotkey _switchWindowsGlobalHoteky;
         private NotifyIcon _notifyIcon;
 
-        public Switcher()
+        public Switcher(GlobalHotkey switcherHotkey)
         {
             InitializeComponent();
             InitializeTrayIcon();
-            SetupGlobalHotkey();
+            SetupGlobalHotkey(switcherHotkey);
             SetupWindowSelection();
             HideWindowFromAltTabList();
         }
@@ -54,17 +53,10 @@
             ShowSwitcher();
         }
 
-        private void SetupGlobalHotkey()
+        private void SetupGlobalHotkey(GlobalHotkey switcherHotkey)
         {
-            _switchWindowsGlobalHoteky = new GlobalHotkey
-            {
-                Shift = true,
-                Ctrl = true,
-                WindowsKey = true,
-                KeyCode = Keys.Q,
-                Enabled = true
-            };
-            _switchWindowsGlobalHoteky.HotkeyPressed += SelectWindow;
+            switcherHotkey.Enabled = true;
+            switcherHotkey.HotkeyPressed += SelectWindow;
         }
 
         private void SetupWindowSelection()
@@ -110,7 +102,6 @@
 
         public new void Dispose()
         {
-            _switchWindowsGlobalHoteky.Dispose();
             _notifyIcon.Dispose();
             base.Dispose();
         }

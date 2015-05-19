@@ -24,7 +24,7 @@
             get { return _hotkey.Ctrl; }
             set { _hotkey.Ctrl = value; }
         }
-
+    
         public bool Enabled
         {
             get { return _hotkey.Enabled; }

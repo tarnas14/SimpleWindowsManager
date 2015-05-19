@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows.Forms;
+    using Common;
 
     class Program
     {
@@ -19,10 +20,12 @@
 
         public void Run()
         {
-            var mainForm = new Switcher();
+            var bindingsConfig = HotkeyBindingsConfigurationFactory.FromFile("bindings.json");
+            var mainForm = new Switcher(bindingsConfig.WindowSwitcherHotkey);
             Application.Run(mainForm);
 
             mainForm.Dispose();
+            bindingsConfig.WindowSwitcherHotkey.Dispose();
         }
     }
 }
