@@ -65,11 +65,17 @@ namespace Common.Windows
 
         //WindowRepresentation
 
-        public void SetDimensions(Dimensions matches)
+        public void SetDimensions(Dimensions dimensions)
         {
-            throw new NotImplementedException();
+            _systemWindow.Position = new RECT(dimensions.Origin.X, dimensions.Origin.Y, dimensions.Origin.X + dimensions.Size.Width, dimensions.Origin.Y + dimensions.Size.Height);
         }
 
-        public Dimensions Dimensions { get; private set; }
+        public Dimensions Dimensions
+        {
+            get
+            {
+                return new Dimensions(new Point(_systemWindow.Position.Location.X, _systemWindow.Position.Location.Y), new Size(_systemWindow.Position.Size.Width, _systemWindow.Position.Size.Height));
+            }
+        }
     }
 }

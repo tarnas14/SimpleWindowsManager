@@ -1,6 +1,5 @@
 ﻿namespace Tests
 {
-    using System.Collections.Generic;
     using Common;
     using Common.Hotkeys;
     using Common.Windows;
@@ -13,11 +12,7 @@
     class WindowsOnGridControllerSpecification
     {
         [Test]
-        [TestCase(GridDirections.Up)]
-        [TestCase(GridDirections.Down)]
-        [TestCase(GridDirections.Left)]
-        [TestCase(GridDirections.Right)]
-        public void ShouldMoveActiveWindowWhenHotkeyPressed(GridDirections direction)
+        public void ShouldMoveActiveWindowWhenHotkeyPressed()
         {
             //given
             var activeWindow = A.Fake<WindowRepresentation>();
@@ -26,11 +21,11 @@
 
             A.CallTo(() => windowManager.GetActiveWindow()).Returns(activeWindow);
 
-            var dummyHotkeyConfiguration = new Dictionary<GridDirections, GlobalHotkey>();
-            dummyHotkeyConfiguration.Add(GridDirections.Up, A.Fake<GlobalHotkey>());
-            dummyHotkeyConfiguration.Add(GridDirections.Down, A.Fake<GlobalHotkey>());
-            dummyHotkeyConfiguration.Add(GridDirections.Left, A.Fake<GlobalHotkey>());
-            dummyHotkeyConfiguration.Add(GridDirections.Right, A.Fake<GlobalHotkey>());
+            var dummyHotkeyConfiguration = A.Fake<GridHotkeyConfiguration>();
+            A.CallTo(() => dummyHotkeyConfiguration.Left).Returns(A.Fake<GlobalHotkey>());
+            A.CallTo(() => dummyHotkeyConfiguration.Right).Returns(A.Fake<GlobalHotkey>());
+            A.CallTo(() => dummyHotkeyConfiguration.Up).Returns(A.Fake<GlobalHotkey>());
+            A.CallTo(() => dummyHotkeyConfiguration.Down).Returns(A.Fake<GlobalHotkey>());
 
             var grid = new Grid();
             var gridElement = new GridElement(new Dimensions(new Point(0,0), new Size(1, 1)));
@@ -40,10 +35,13 @@
             new WindowsOnGridController(dummyHotkeyConfiguration, grid, windowManager);
 
             //when
-            dummyHotkeyConfiguration[direction].HotkeyPressed += Raise.WithEmpty();
+            dummyHotkeyConfiguration.Left.HotkeyPressed += Raise.WithEmpty();
+            dummyHotkeyConfiguration.Right.HotkeyPressed += Raise.WithEmpty();
+            dummyHotkeyConfiguration.Up.HotkeyPressed += Raise.WithEmpty();
+            dummyHotkeyConfiguration.Down.HotkeyPressed += Raise.WithEmpty();
 
             //then
-            A.CallTo(() => activeWindow.SetDimensions(A<Dimensions>.That.Matches(dimensions => dimensions.Equals(gridElement.Dimensions)))).MustHaveHappened();
+            A.CallTo(() => activeWindow.SetDimensions(A<Dimensions>.That.Matches(dimensions => dimensions.Equals(gridElement.Dimensions)))).MustHaveHappened(Repeated.Exactly.Times(4));
         }
     }
 }

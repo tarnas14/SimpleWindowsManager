@@ -1,6 +1,5 @@
 ﻿namespace SimpleWindowsManager.WindowGrid
 {
-    using System.Collections.Generic;
     using Common;
     using Common.Hotkeys;
     using Common.Windows;
@@ -8,21 +7,40 @@
 
     public class WindowsOnGridController
     {
-        public WindowsOnGridController(Dictionary<GridDirections, GlobalHotkey> hotkeyConfiguration, Grid grid, WindowManager windowManager)
+        public WindowsOnGridController(GridHotkeyConfiguration hotkeyConfiguration, Grid grid, WindowManager windowManager)
         {
             BindEverything(hotkeyConfiguration, grid, windowManager);
         }
 
-        private static void BindEverything(Dictionary<GridDirections, GlobalHotkey> hotkeyConfiguration, Grid grid, WindowManager windowManager)
+        private static void BindEverything(GridHotkeyConfiguration hotkeyConfiguration, Grid grid, WindowManager windowManager)
         {
-            foreach (var globalHotkey in hotkeyConfiguration)
+            hotkeyConfiguration.Left.Enable();
+            hotkeyConfiguration.Left.HotkeyPressed += (sender, args) =>
             {
-                globalHotkey.Value.HotkeyPressed += (sender, args) =>
-                {
-                    var activeWindow = windowManager.GetActiveWindow();
-                    grid.Move(activeWindow, globalHotkey.Key);
-                };
-            }
+                var activeWindow = windowManager.GetActiveWindow();
+                grid.Move(activeWindow, GridDirections.Left);
+            };
+
+            hotkeyConfiguration.Right.Enable();
+            hotkeyConfiguration.Right.HotkeyPressed += (sender, args) =>
+            {
+                var activeWindow = windowManager.GetActiveWindow();
+                grid.Move(activeWindow, GridDirections.Right);
+            };
+
+            hotkeyConfiguration.Down.Enable();
+            hotkeyConfiguration.Down.HotkeyPressed += (sender, args) =>
+            {
+                var activeWindow = windowManager.GetActiveWindow();
+                grid.Move(activeWindow, GridDirections.Down);
+            };
+
+            hotkeyConfiguration.Up.Enable();
+            hotkeyConfiguration.Up.HotkeyPressed += (sender, args) =>
+            {
+                var activeWindow = windowManager.GetActiveWindow();
+                grid.Move(activeWindow, GridDirections.Up);
+            };
         }
     }
 }
