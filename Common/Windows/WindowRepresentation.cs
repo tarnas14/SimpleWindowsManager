@@ -2,7 +2,7 @@ namespace Common.Windows
 {
     public interface WindowRepresentation
     {
-        void SetDimensions(Dimensions matches);
-        int Id { get; }
+        void SetDimensions(Dimensions dimensions);
+        Dimensions Dimensions { get; }
     }
 }

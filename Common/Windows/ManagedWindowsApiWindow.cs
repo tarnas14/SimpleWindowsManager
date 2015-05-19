@@ -31,11 +31,6 @@ namespace Common.Windows
             return string.Format("{0}.{1}", _systemWindow.Process.ProcessName, Title);
         }
 
-        public void SetDimensions(Dimensions matches)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool Matches(string searchExpression)
         {
             return 
@@ -67,5 +62,14 @@ namespace Common.Windows
         private static extern int BringWindowToTop(IntPtr hWnd);
 
         private const uint SW_RESTORE = 0x09;
+
+        //WindowRepresentation
+
+        public void SetDimensions(Dimensions matches)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dimensions Dimensions { get; private set; }
     }
 }

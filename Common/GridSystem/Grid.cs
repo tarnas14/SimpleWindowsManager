@@ -30,7 +30,7 @@ namespace Common.GridSystem
                 return;
             }
 
-            windowGridElement.Move(window, direction);
+            windowGridElement.GetNeighbour(direction).SetWindow(window);
         }
 
         private GridElement GetGridElementWindowIsOn(WindowRepresentation window)

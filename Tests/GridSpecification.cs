@@ -4,6 +4,7 @@
     using Common.GridSystem;
     using Common.Windows;
     using FakeItEasy;
+    using Halp;
     using NUnit.Framework;
 
     [TestFixture]
@@ -40,7 +41,7 @@
         public void ShouldCallRespectiveGridElementsWhenMovingWindowAlreadyOnGrid(GridDirections moveDirection, int expectedX, int expectedY, int expectedWidth, int expectedHeight)
         {
             //given
-            var windowOutsideGrid = A.Fake<WindowRepresentation>();
+            var windowOutsideGrid = new DummyWindowRepresentation();
             var grid = new Grid();
             var leftGridElement = new GridElement(new Dimensions(new Point(0, 0), new Size(0, 0)));
             var topGridElement = new GridElement(new Dimensions(new Point(1, 1), new Size(1, 1)));
@@ -64,8 +65,7 @@
             grid.Move(windowOutsideGrid, moveDirection);
 
             //then
-            A.CallTo(
-                () => windowOutsideGrid.SetDimensions(A<Dimensions>.That.Matches(dimensions => dimensions.Equals(expectedDimensions)))).MustHaveHappened();
+            Assert.That(windowOutsideGrid.Dimensions, Is.EqualTo(expectedDimensions));
         }
     }
 
@@ -73,7 +73,27 @@
     class GridElementSpecification
     {
         [Test]
-        public void ShouldSetWindowDimensionsAndRememberIt()
+        public void ShouldRecognizeIfWindowIsInGridOrNot()
+        {
+            //given
+            var gridElementDimensions = new Dimensions(new Point(1, 2), new Size(3, 4));
+            var dimensionsOutsideGrid = new Dimensions(new Point(5, 6), new Size(7, 8));
+
+            var gridElement = new GridElement(gridElementDimensions);
+
+            var windowOutsideGrid = A.Fake<WindowRepresentation>();
+            A.CallTo(() => windowOutsideGrid.Dimensions).Returns(dimensionsOutsideGrid);
+
+            var windowInsideGrid = A.Fake<WindowRepresentation>();
+            A.CallTo(() => windowInsideGrid.Dimensions).Returns(gridElementDimensions);
+
+            //then
+            Assert.That(gridElement.HasWindow(windowInsideGrid));
+            Assert.That(!gridElement.HasWindow(windowOutsideGrid));
+        }
+
+        [Test]
+        public void ShouldSetWindowDimensions()
         {
             //given
             var window = A.Fake<WindowRepresentation>();
@@ -87,40 +107,6 @@
                 () =>
                     window.SetDimensions(
                         A<Dimensions>.That.Matches(dimensions => dimensions.Equals(gridElement.Dimensions))));
-            Assert.That(gridElement.HasWindow(window));
-        }
-
-        [Test]
-        public void ShouldMoveWindowInSpecifiedDirection()
-        {
-            //given
-            var window = A.Fake<WindowRepresentation>();
-            var gridElement = new GridElement(new Dimensions(new Point(1, 2), new Size(3, 4)));
-            var gridElementToTheRight = new GridElement(new Dimensions(new Point(5, 6), new Size(7, 8)));
-            gridElement.SetNeighbour(gridElementToTheRight, GridDirections.Right);
-
-            gridElement.SetWindow(window);
-
-            //when
-            gridElement.Move(window, GridDirections.Right);
-
-            //then
-            Assert.That(!gridElement.HasWindow(window));
-            Assert.That(gridElementToTheRight.HasWindow(window));
-        }
-
-        [Test]
-        public void ShouldNotRecognizeWindowThatWasNotSetIntoGrid()
-        {
-            //given
-            var window = A.Fake<WindowRepresentation>();
-            var gridElement = new GridElement(new Dimensions(new Point(1, 2), new Size(3, 4)));
-
-            //when
-            //nothing, really
-
-            //then
-            Assert.That(!gridElement.HasWindow(window));
         }
     }
 }
