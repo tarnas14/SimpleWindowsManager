@@ -45,25 +45,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoCompleteCombobox.cs">
+    <Compile Include="WindowSwitcher\AutoCompleteCombobox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AutoCompleteCombobox.Designer.cs">
+    <Compile Include="WindowSwitcher\AutoCompleteCombobox.Designer.cs">
       <DependentUpon>AutoCompleteCombobox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ElementSelectedEventArgs.cs" />
-    <Compile Include="Switcher.cs">
+    <Compile Include="WindowSwitcher\ElementSelectedEventArgs.cs" />
+    <Compile Include="WindowSwitcher\Switcher.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Switcher.Designer.cs">
+    <Compile Include="WindowSwitcher\Switcher.Designer.cs">
       <DependentUpon>Switcher.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AutoCompleteCombobox.resx">
+    <EmbeddedResource Include="WindowSwitcher\AutoCompleteCombobox.resx">
       <DependentUpon>AutoCompleteCombobox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Switcher.resx">
+    <EmbeddedResource Include="WindowSwitcher\Switcher.resx">
       <DependentUpon>Switcher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

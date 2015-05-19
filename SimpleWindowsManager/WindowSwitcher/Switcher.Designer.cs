@@ -1,7 +1,5 @@
-﻿namespace SimpleWindowsManager
+﻿namespace SimpleWindowsManager.WindowSwitcher
 {
-    using Common;
-
     partial class Switcher
     {
         /// <summary>
@@ -30,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._windowTitles = new SimpleWindowsManager.AutoCompleteCombobox();
+            this._windowTitles = new AutoCompleteCombobox();
             this.SuspendLayout();
             // 
             // _windowTitles

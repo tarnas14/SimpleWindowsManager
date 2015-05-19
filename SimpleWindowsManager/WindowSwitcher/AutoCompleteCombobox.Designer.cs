@@ -1,4 +1,4 @@
-﻿namespace SimpleWindowsManager
+﻿namespace SimpleWindowsManager.WindowSwitcher
 {
     partial class AutoCompleteCombobox
     {

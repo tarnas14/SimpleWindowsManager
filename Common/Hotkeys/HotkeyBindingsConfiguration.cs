@@ -1,8 +1,6 @@
-﻿namespace Common
+﻿namespace Common.Hotkeys
 {
-    using System.IO;
     using System.Windows.Forms;
-    using Newtonsoft.Json;
 
     public class HotkeyBindingsConfiguration
     {

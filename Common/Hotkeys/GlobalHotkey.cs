@@ -1,4 +1,4 @@
-﻿namespace Common
+﻿namespace Common.Hotkeys
 {
     using System;
     using System.Windows.Forms;

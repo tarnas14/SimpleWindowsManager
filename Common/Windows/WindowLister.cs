@@ -1,4 +1,4 @@
-namespace Common
+namespace Common.Windows
 {
     using System.Collections.Generic;
     using System.Linq;

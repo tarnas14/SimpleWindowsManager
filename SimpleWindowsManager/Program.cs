@@ -3,6 +3,8 @@
     using System;
     using System.Windows.Forms;
     using Common;
+    using Common.Hotkeys;
+    using WindowSwitcher;
 
     class Program
     {

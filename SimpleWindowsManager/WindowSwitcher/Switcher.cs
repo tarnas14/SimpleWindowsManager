@@ -1,4 +1,4 @@
-﻿namespace SimpleWindowsManager
+﻿namespace SimpleWindowsManager.WindowSwitcher
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +7,8 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Common;
+    using Common.Hotkeys;
+    using Common.Windows;
     using Properties;
 
     public partial class Switcher : Form

@@ -47,13 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GlobalHotkey.cs" />
-    <Compile Include="HotkeyBindingsConfiguration.cs" />
-    <Compile Include="HotkeyBindingsConfigurationFactory.cs" />
-    <Compile Include="ICanBeSearchedFor.cs" />
+    <Compile Include="Hotkeys\GlobalHotkey.cs" />
+    <Compile Include="Hotkeys\HotkeyBindingsConfiguration.cs" />
+    <Compile Include="Hotkeys\HotkeyBindingsConfigurationFactory.cs" />
+    <Compile Include="Windows\ICanBeSearchedFor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindowLister.cs" />
-    <Compile Include="WindowRepresentation.cs" />
+    <Compile Include="Windows\WindowLister.cs" />
+    <Compile Include="Windows\WindowRepresentation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

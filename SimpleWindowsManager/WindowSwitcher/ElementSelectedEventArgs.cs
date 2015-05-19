@@ -1,7 +1,8 @@
-﻿namespace SimpleWindowsManager
+﻿namespace SimpleWindowsManager.WindowSwitcher
 {
     using System;
     using Common;
+    using Common.Windows;
 
     public class ElementSelectedEventArgs : EventArgs
     {

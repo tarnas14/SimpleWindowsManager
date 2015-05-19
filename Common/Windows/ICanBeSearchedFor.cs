@@ -1,4 +1,4 @@
-namespace Common
+namespace Common.Windows
 {
     public interface ICanBeSearchedFor
     {
