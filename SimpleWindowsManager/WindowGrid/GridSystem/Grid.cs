@@ -1,9 +1,10 @@
-namespace Common.GridSystem
+namespace SimpleWindowsManager.WindowGrid.GridSystem
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Windows;
+    using Common;
+    using Common.Windows;
 
     public class Grid
     {

@@ -1,6 +1,7 @@
-namespace Common.GridSystem
+namespace SimpleWindowsManager.WindowGrid.GridSystem
 {
-    using Windows;
+    using Common;
+    using Common.Windows;
 
     public class GridElement
     {

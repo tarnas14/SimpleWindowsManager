@@ -48,17 +48,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dimensions.cs" />
-    <Compile Include="GridSystem\Grid.cs" />
-    <Compile Include="GridSystem\GridDirections.cs" />
-    <Compile Include="GridSystem\GridElement.cs" />
     <Compile Include="Hotkeys\GlobalHotkey.cs" />
+    <Compile Include="GridDirections.cs" />
     <Compile Include="Hotkeys\ManagedWindowsApiGlobalHotkey.cs" />
     <Compile Include="Hotkeys\HotkeyBindingsConfiguration.cs" />
     <Compile Include="Hotkeys\HotkeyBindingsConfigurationFactory.cs" />
+    <Compile Include="Hotkeys\WindowGridHotkeyConfiguration.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Windows\ICanBeSearchedFor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Windows\WindowManager.cs" />
     <Compile Include="Windows\WindowRepresentation.cs" />
     <Compile Include="Windows\WindowLister.cs" />
     <Compile Include="Windows\ManagedWindowsApiWindow.cs" />

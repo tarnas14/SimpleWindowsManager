@@ -1,4 +1,4 @@
-namespace Common.GridSystem
+namespace Common
 {
     public enum GridDirections
     {

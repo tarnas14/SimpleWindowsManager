@@ -27,7 +27,7 @@
             Application.Run(mainForm);
 
             mainForm.Dispose();
-            bindingsConfig.WindowSwitcherHotkey.Dispose();
+            bindingsConfig.Dispose();
         }
     }
 }

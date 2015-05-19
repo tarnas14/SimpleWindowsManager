@@ -1,11 +1,11 @@
 ﻿namespace Tests
 {
     using Common;
-    using Common.GridSystem;
     using Common.Windows;
     using FakeItEasy;
     using Halp;
     using NUnit.Framework;
+    using SimpleWindowsManager.WindowGrid.GridSystem;
 
     [TestFixture]
     class GridSpecification

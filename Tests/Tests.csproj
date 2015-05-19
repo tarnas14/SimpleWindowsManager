@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Halp\DummyWindowRepresentation.cs" />
     <Compile Include="GridSpecification.cs" />
+    <Compile Include="WindowsOnGridControllerSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{0869C14F-F3E0-4E3D-B740-721C1A1315C3}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWindowsManager\SimpleWindowsManager.csproj">
+      <Project>{8E19DB49-DCF0-4131-9335-497EA8E4C0ED}</Project>
+      <Name>SimpleWindowsManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

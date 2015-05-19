@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using Common;
     using Common.Hotkeys;
     using Common.Windows;
     using Properties;
@@ -15,7 +14,7 @@
     {
         private NotifyIcon _notifyIcon;
 
-        public Switcher(ManagedWindowsApiGlobalHotkey switcherHotkey)
+        public Switcher(GlobalHotkey switcherHotkey)
         {
             InitializeComponent();
             InitializeTrayIcon();
@@ -55,7 +54,7 @@
             ShowSwitcher();
         }
 
-        private void SetupGlobalHotkey(ManagedWindowsApiGlobalHotkey switcherHotkey)
+        private void SetupGlobalHotkey(GlobalHotkey switcherHotkey)
         {
             switcherHotkey.Enable();
             switcherHotkey.HotkeyPressed += SelectWindow;
