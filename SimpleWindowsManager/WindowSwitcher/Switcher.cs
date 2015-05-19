@@ -15,7 +15,7 @@
     {
         private NotifyIcon _notifyIcon;
 
-        public Switcher(GlobalHotkey switcherHotkey)
+        public Switcher(ManagedWindowsApiGlobalHotkey switcherHotkey)
         {
             InitializeComponent();
             InitializeTrayIcon();
@@ -55,9 +55,9 @@
             ShowSwitcher();
         }
 
-        private void SetupGlobalHotkey(GlobalHotkey switcherHotkey)
+        private void SetupGlobalHotkey(ManagedWindowsApiGlobalHotkey switcherHotkey)
         {
-            switcherHotkey.Enabled = true;
+            switcherHotkey.Enable();
             switcherHotkey.HotkeyPressed += SelectWindow;
         }
 

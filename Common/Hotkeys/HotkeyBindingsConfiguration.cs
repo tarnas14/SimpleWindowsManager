@@ -6,7 +6,7 @@
     {
         public HotkeyBindingsConfiguration()
         {
-            WindowSwitcherHotkey = new GlobalHotkey
+            WindowSwitcherHotkey = new ManagedWindowsApiGlobalHotkey
             {
                 Ctrl = true,
                 Shift = true,
@@ -15,6 +15,6 @@
             };
         }
 
-        public GlobalHotkey WindowSwitcherHotkey { set; get; }
+        public ManagedWindowsApiGlobalHotkey WindowSwitcherHotkey { set; get; }
     }
 }
