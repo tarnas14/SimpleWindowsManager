@@ -49,6 +49,8 @@
             }
 
             _comboBox.DroppedDown = true;
+            _comboBox.SelectedIndex = -1;
+
             var searchExpression = _comboBox.Text;
             var matchingItems = Values.Where(element => element.Matches(searchExpression)).ToList();
 
