@@ -45,13 +45,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 49);
+            this.ClientSize = new System.Drawing.Size(346, 50);
             this.ControlBox = false;
             this.Controls.Add(this._windowTitles);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(362, 89);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(0, 89);
             this.Name = "Switcher";
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Switcher";
             this.ResumeLayout(false);
