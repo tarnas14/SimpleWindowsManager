@@ -5,6 +5,7 @@ namespace Common.GridSystem
         Left,
         Right,
         Up,
-        Down
+        Down,
+        Any
     }
 }
