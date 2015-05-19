@@ -69,7 +69,7 @@
 
         private void GoToWindow(object sender, ElementSelectedEventArgs e)
         {
-            var selectedWindow = e.SelectedItem as WindowRepresentation;
+            var selectedWindow = e.SelectedItem as ManagedWindowsApiWindow;
             if (selectedWindow == null)
             {
                 return;

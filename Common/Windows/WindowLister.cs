@@ -6,9 +6,9 @@ namespace Common.Windows
 
     public static class WindowLister
     {
-        public static IList<WindowRepresentation> GetOpenWindows()
+        public static IList<ManagedWindowsApiWindow> GetOpenWindows()
         {
-            return SystemWindow.AllToplevelWindows.Where(AWindowWeCanGetTo).Select(systemWindow => new WindowRepresentation(systemWindow)).OrderBy(representation => representation.ToString()).ToList();
+            return SystemWindow.AllToplevelWindows.Where(AWindowWeCanGetTo).Select(systemWindow => new ManagedWindowsApiWindow(systemWindow)).OrderBy(representation => representation.ToString()).ToList();
         }
 
         private static bool AWindowWeCanGetTo(SystemWindow systemWindow)
