@@ -5,7 +5,7 @@ Planned functionality:
   - [ ] moving active window around a pre-configured grid
 
 TODO:
-  - [ ] load binding from file (and check if hotkey is registered)
+  - [x] load binding from file (and check if hotkey is registered)
   - [x] add notifyIcon with contextmenu (bring to front and exit)
   - [ ] start without window - with only notify icon
   - [ ] remove WindowSwitcher from alt-tab list
