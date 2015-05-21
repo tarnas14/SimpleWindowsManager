@@ -30,7 +30,7 @@
 
             new WindowsOnGridController(
                 bindingsConfig.WindowGridConfiguration, 
-                GridFactory.FromConfig(GridConfig.DummyConfiguration),
+                GridFactory.FromConfig(GridConfig.FromFile("grindConfig.json")),
                 new ManagedWindowsApiWindowManager());
 
             Application.Run(mainForm);
