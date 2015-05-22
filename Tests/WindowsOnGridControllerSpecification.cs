@@ -16,6 +16,8 @@
         {
             //given
             var activeWindow = A.Fake<WindowRepresentation>();
+            var dimensions = new Dimensions(new Point(0 ,0), new Size(100, 100));
+            A.CallTo(() => activeWindow.Dimensions).Returns(dimensions);
 
             var windowManager = A.Fake<WindowManager>();
 
@@ -30,7 +32,6 @@
             var grid = new Grid();
             var gridElement = new GridElement(new Dimensions(new Point(0,0), new Size(1, 1)));
             grid.AddElement(gridElement);
-            grid.SetAsMain(gridElement);
 
             new WindowsOnGridController(dummyHotkeyConfiguration, grid, windowManager);
 
@@ -41,7 +42,7 @@
             dummyHotkeyConfiguration.Down.HotkeyPressed += Raise.WithEmpty();
 
             //then
-            A.CallTo(() => activeWindow.SetDimensions(A<Dimensions>.That.Matches(dimensions => dimensions.Equals(gridElement.Dimensions)))).MustHaveHappened(Repeated.Exactly.Times(4));
+            A.CallTo(() => activeWindow.SetDimensions(A<Dimensions>.That.Matches(newDimensions => newDimensions.Equals(gridElement.Dimensions)))).MustHaveHappened(Repeated.Exactly.Times(4));
         }
     }
 }

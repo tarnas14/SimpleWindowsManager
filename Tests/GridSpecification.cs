@@ -5,160 +5,139 @@
     using FakeItEasy;
     using Halp;
     using NUnit.Framework;
-    using SimpleWindowsManager.WindowGrid.Configuration;
     using SimpleWindowsManager.WindowGrid.GridSystem;
 
     [TestFixture]
     class GridSpecification
     {
-        [Test]
-        [TestCase(GridDirections.Left)]
-        [TestCase(GridDirections.Right)]
-        [TestCase(GridDirections.Up)]
-        [TestCase(GridDirections.Down)]
-        [TestCase(GridDirections.Any)]
-        public void ShouldInsertUngridedWindowIntoMainGridElementFirstRegardlessOfDirection(GridDirections direction)
+        private GridElement _leftTop;
+        private GridElement _centerTop;
+        private GridElement _leftCenter;
+        private GridElement _centerCenter;
+        private Size _quarterSize;
+        private Grid _quarterGrid;
+        private Dimensions _dimensionsOutsideGrid;
+
+        [SetUp]
+        public void Setup()
         {
-            //given
-            var windowOutsideGrid = A.Fake<WindowRepresentation>();
-            var grid = new Grid();
-            var gridElement = new GridElement(new Dimensions(new Point(0, 0), new Size(100, 100)));
-            grid.AddElement(gridElement);
-            grid.SetAsMain(gridElement);
+            _quarterSize = new Size(960, 540);
+            _leftTop = new GridElement(new Dimensions(new Point(0, 0), _quarterSize));
+            _centerTop = new GridElement(new Dimensions(new Point(960, 0), _quarterSize));
+            _leftCenter = new GridElement(new Dimensions(new Point(0, 540), _quarterSize));
+            _centerCenter = new GridElement(new Dimensions(new Point(960, 540), _quarterSize));
 
-            //when
-            grid.Move(windowOutsideGrid, direction);
+            _leftTop.SetNeighbour(_centerTop, GridDirections.Left);
+            _leftTop.SetNeighbour(_centerTop, GridDirections.Right);
+            _leftTop.SetNeighbour(_leftCenter, GridDirections.Up);
+            _leftTop.SetNeighbour(_leftCenter, GridDirections.Down);
+            _centerTop.SetNeighbour(_leftTop, GridDirections.Left);
+            _centerTop.SetNeighbour(_leftTop, GridDirections.Right);
+            _centerTop.SetNeighbour(_centerCenter, GridDirections.Down);
+            _centerTop.SetNeighbour(_centerCenter, GridDirections.Up);
+            _leftCenter.SetNeighbour(_centerCenter, GridDirections.Right);
+            _leftCenter.SetNeighbour(_centerCenter, GridDirections.Left);
+            _leftCenter.SetNeighbour(_leftTop, GridDirections.Up);
+            _leftCenter.SetNeighbour(_leftTop, GridDirections.Down);
+            _centerCenter.SetNeighbour(_leftCenter, GridDirections.Right);
+            _centerCenter.SetNeighbour(_leftCenter, GridDirections.Left);
+            _centerCenter.SetNeighbour(_centerTop, GridDirections.Down);
+            _centerCenter.SetNeighbour(_centerTop, GridDirections.Up);
 
-            //then
-            A.CallTo(
-                () => windowOutsideGrid.SetDimensions(A<Dimensions>.That.Matches(dimensions => dimensions.Equals(gridElement.Dimensions)))).MustHaveHappened();
+            _quarterGrid = new Grid();
+            _quarterGrid.AddElement(_leftTop);
+            _quarterGrid.AddElement(_leftCenter);
+            _quarterGrid.AddElement(_centerCenter);
+            _quarterGrid.AddElement(_centerTop);
+
+            _dimensionsOutsideGrid = new Dimensions(new Point(480, 270), _quarterSize);
         }
 
         [Test]
-        [TestCase(GridDirections.Left, 0, 0, 0, 0)]
-        [TestCase(GridDirections.Up, 1, 1, 1, 1)]
-        [TestCase(GridDirections.Right, 2, 2, 2, 2)]
-        [TestCase(GridDirections.Down, 3, 3, 3, 3)]
-        public void ShouldCallRespectiveGridElementsWhenMovingWindowAlreadyOnGrid(GridDirections moveDirection, int expectedX, int expectedY, int expectedWidth, int expectedHeight)
+        [TestCase(GridDirections.Left, 960, 0, TestName = "leftTop -left-> centerTop")]
+        [TestCase(GridDirections.Up, 0, 540, TestName = "leftTop -up-> leftCenter")]
+        [TestCase(GridDirections.Right, 960, 0, TestName = "leftTop -right-> centerTop")]
+        [TestCase(GridDirections.Down, 0, 540, TestName = "leftTop -down-> leftCenter")]
+        public void ShouldCallRespectiveGridElementsWhenMovingWindowAlreadyOnGrid(GridDirections moveDirection, int expectedX, int expectedY)
         {
             //given
-            var windowOutsideGrid = new DummyWindowRepresentation();
-            var grid = new Grid();
-            var leftGridElement = new GridElement(new Dimensions(new Point(0, 0), new Size(0, 0)));
-            var topGridElement = new GridElement(new Dimensions(new Point(1, 1), new Size(1, 1)));
-            var rightGridElement = new GridElement(new Dimensions(new Point(2, 2), new Size(2, 2)));
-            var bottomGridElement = new GridElement(new Dimensions(new Point(3, 3), new Size(3, 3)));
-
-            var mainGridElement = new GridElement(new Dimensions(new Point(666, 666), new Size(666, 666)));
-            mainGridElement.SetNeighbour(leftGridElement, GridDirections.Left);
-            mainGridElement.SetNeighbour(topGridElement, GridDirections.Up);
-            mainGridElement.SetNeighbour(rightGridElement, GridDirections.Right);
-            mainGridElement.SetNeighbour(bottomGridElement, GridDirections.Down);
-
-            grid.AddElement(mainGridElement);
-            grid.SetAsMain(mainGridElement);
-            grid.Move(windowOutsideGrid, GridDirections.Any);
+            var windowInLeftTopQuarter = new DummyWindowRepresentation()
+            {
+                Dimensions = _leftTop.Dimensions
+            };
 
             var expectedDimensions = new Dimensions(new Point(expectedX, expectedY),
-                new Size(expectedWidth, expectedHeight));
+                _quarterSize);
 
             //when
-            grid.Move(windowOutsideGrid, moveDirection);
+            _quarterGrid.Move(windowInLeftTopQuarter, moveDirection);
 
             //then
-            Assert.That(windowOutsideGrid.Dimensions, Is.EqualTo(expectedDimensions));
-        }
-    }
-
-    [TestFixture]
-    class GridElementSpecification
-    {
-        [Test]
-        public void ShouldRecognizeIfWindowIsInGridOrNot()
-        {
-            //given
-            var gridElementDimensions = new Dimensions(new Point(1, 2), new Size(3, 4));
-            var dimensionsOutsideGrid = new Dimensions(new Point(5, 6), new Size(7, 8));
-
-            var gridElement = new GridElement(gridElementDimensions);
-
-            var windowOutsideGrid = A.Fake<WindowRepresentation>();
-            A.CallTo(() => windowOutsideGrid.Dimensions).Returns(dimensionsOutsideGrid);
-
-            var windowInsideGrid = A.Fake<WindowRepresentation>();
-            A.CallTo(() => windowInsideGrid.Dimensions).Returns(gridElementDimensions);
-
-            //then
-            Assert.That(gridElement.HasWindow(windowInsideGrid));
-            Assert.That(!gridElement.HasWindow(windowOutsideGrid));
+            Assert.That(windowInLeftTopQuarter.Dimensions, Is.EqualTo(expectedDimensions));
         }
 
         [Test]
-        public void ShouldSetWindowDimensions()
+        [TestCase(GridDirections.Left, 0)]
+        [TestCase(GridDirections.Right, 960)]
+        public void ShouldMoveToClosestGridOriginWhenMovingHorizontally(GridDirections horizontalDirection, int originXCoordinate)
         {
             //given
-            var window = A.Fake<WindowRepresentation>();
-            var gridElement = new GridElement(new Dimensions(new Point(1, 2), new Size(3, 4)));
-
-            //when
-            gridElement.SetWindow(window);
-
-            //then
-            A.CallTo(
-                () =>
-                    window.SetDimensions(
-                        A<Dimensions>.That.Matches(dimensions => dimensions.Equals(gridElement.Dimensions))));
-        }
-    }
-
-    [TestFixture]
-    class GridFactorySpecification
-    {
-        [Test]
-        public void ShouldCorrectlyBuildGrid()
-        {
-            //given
-            var topLeft = new Dimensions(new Point(0, 0), new Size(1, 1));
-            var topRight = new Dimensions(new Point(1, 0), new Size(1, 1));
-            var bottomRight = new Dimensions(new Point(1, 1), new Size(1, 1));
-            var bottomLeft = new Dimensions(new Point(0, 1), new Size(1, 1));
-
-            var config = new GridConfig
+            var centerHorizontallyAlignedWindow = new DummyWindowRepresentation
             {
-                GridElements = new[]
-                {
-                    topLeft, topRight, bottomRight, bottomLeft
-                },
-                NeighbourMap = new[]
-                {
-                    new [] { 3, 1, 3, 1 },
-                    new [] { 2, 0, 2, 0 },
-                    new [] { 1, 3, 1, 3 },
-                    new [] { 0, 2, 0, 2 }
-                },
-                MainElement = 0
+                Dimensions = new Dimensions(new Point(900, 540), new Size(0,0))
             };
-            var grid = GridFactory.FromConfig(config);
-            var dummyWindow = new DummyWindowRepresentation();
+
+            const int expectedYOriginCoordinate = 540;
+            var expectedDimensions = new Dimensions(new Point(originXCoordinate, expectedYOriginCoordinate),_quarterSize);
 
             //when
-            grid.Move(dummyWindow, GridDirections.Left);
-            Assert.That(dummyWindow.Dimensions, Is.EqualTo(topLeft));
+            _quarterGrid.Move(centerHorizontallyAlignedWindow, horizontalDirection);
 
-            //when
-            grid.Move(dummyWindow, GridDirections.Right);
             //then
-            Assert.That(dummyWindow.Dimensions, Is.EqualTo(topRight));
+            Assert.That(centerHorizontallyAlignedWindow.Dimensions, Is.EqualTo(expectedDimensions));
+        }
+
+        [Test]
+        [TestCase(GridDirections.Up, 0)]
+        [TestCase(GridDirections.Down, 540)]
+        public void ShouldMoveToClosestGridOriginWhenMovingVertically(GridDirections verticalDirection, int originYCoordinate)
+        {
+            //given
+            var centerVerticallyAlignedWindow = new DummyWindowRepresentation
+            {
+                Dimensions = new Dimensions(new Point(960, 500), new Size(0, 0))
+            };
+
+            const int expectedXOriginCoordinate = 960;
+            var expectedDimensions = new Dimensions(new Point(expectedXOriginCoordinate, originYCoordinate), _quarterSize);
 
             //when
-            grid.Move(dummyWindow, GridDirections.Down);
+            _quarterGrid.Move(centerVerticallyAlignedWindow, verticalDirection);
+
             //then
-            Assert.That(dummyWindow.Dimensions, Is.EqualTo(bottomRight));
+            Assert.That(centerVerticallyAlignedWindow.Dimensions, Is.EqualTo(expectedDimensions));
+        }
+
+        [Test]
+        [TestCase(GridDirections.Right)]
+        [TestCase(GridDirections.Left)]
+        [TestCase(GridDirections.Up)]
+        [TestCase(GridDirections.Down)]
+        public void ShouldMoveWindowToTheFirstGridElementIfItIsNotAlignedWithAnyGridElement(GridDirections direction)
+        {
+            //given
+            var windowNotAlignedWithAnyGridElement = new DummyWindowRepresentation
+            {
+                Dimensions = new Dimensions(new Point(800, 500), new Size(0, 0))
+            };
+
+            var expectedDimensions = _leftTop.Dimensions;
 
             //when
-            grid.Move(dummyWindow, GridDirections.Left);
+            _quarterGrid.Move(windowNotAlignedWithAnyGridElement, direction);
+
             //then
-            Assert.That(dummyWindow.Dimensions, Is.EqualTo(bottomLeft));
+            Assert.That(windowNotAlignedWithAnyGridElement.Dimensions, Is.EqualTo(expectedDimensions));
         }
     }
 }

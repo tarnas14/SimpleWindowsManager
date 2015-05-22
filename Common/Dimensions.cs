@@ -22,5 +22,10 @@ namespace Common
 
             return otherDimensions.Origin.Equals(Origin) && otherDimensions.Size.Equals(Size);
         }
+
+        public override string ToString()
+        {
+            return string.Format("[({0},{1}), ({2}x{3})]", Origin.X, Origin.Y, Size.Width, Size.Height);
+        }
     }
 }

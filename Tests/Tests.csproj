@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GridElementSpecification.cs" />
+    <Compile Include="GridFactorySpecification.cs" />
     <Compile Include="Halp\DummyWindowRepresentation.cs" />
     <Compile Include="GridSpecification.cs" />
     <Compile Include="WindowsOnGridControllerSpecification.cs" />

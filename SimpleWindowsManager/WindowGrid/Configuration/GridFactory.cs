@@ -24,8 +24,6 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
             var gridFromConfig = new Grid();
             gridElements.ForEach(gridFromConfig.AddElement);
 
-            gridFromConfig.SetAsMain(gridElements[gridConfig.MainElement]);
-
             return gridFromConfig;
         }
     }
