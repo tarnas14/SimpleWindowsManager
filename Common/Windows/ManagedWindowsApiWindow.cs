@@ -67,6 +67,11 @@ namespace Common.Windows
 
         public void SetDimensions(Dimensions dimensions)
         {
+            if (_systemWindow.WindowState == FormWindowState.Maximized)
+            {
+                _systemWindow.WindowState = FormWindowState.Normal;
+            }
+
             _systemWindow.Position = new RECT(dimensions.Origin.X, dimensions.Origin.Y, dimensions.Origin.X + dimensions.Size.Width, dimensions.Origin.Y + dimensions.Size.Height);
         }
 
