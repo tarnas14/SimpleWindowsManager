@@ -17,6 +17,7 @@
         private Size _quarterSize;
         private Grid _quarterGrid;
         private Dimensions _dimensionsOutsideGrid;
+        private Dimensions _theMiddle = new Dimensions(new Point(480, 270), new Size(480, 270));
 
         //X****X*****
         //*    *    *
@@ -111,6 +112,45 @@
 
             //then
             Assert.That(window.Dimensions, Is.EqualTo(expectedDimensions));
+        }
+
+        [Test]
+        [TestCase(GridDirections.Left, 0, 0)]
+        [TestCase(GridDirections.Right, 960, 0)]
+        public void ShouldChooseTopWindowIfMultipleGridElementsFoundInTheSameDistanceWhenMovingHorizontally(GridDirections direction, int expectedX, int expectedY)
+        {
+            //given
+            var windowExactlyInTheMiddle = new DummyWindowRepresentation
+            {
+                Dimensions = _theMiddle
+            };
+            var expectedDimensions = new Dimensions(new Point(expectedX, expectedY), _quarterSize);
+
+            //when
+            _quarterGrid.Move(windowExactlyInTheMiddle, direction);
+
+            //then
+            Assert.That(windowExactlyInTheMiddle.Dimensions, Is.EqualTo(expectedDimensions));
+        }
+
+
+        [Test]
+        [TestCase(GridDirections.Up, 0, 0)]
+        [TestCase(GridDirections.Down, 0, 540)]
+        public void ShouldChooseLeftWindowIfMultipleGridElementsFoundInTheSameDistanceWhenMovingVertically(GridDirections direction, int expectedX, int expectedY)
+        {
+            //given
+            var windowExactlyInTheMiddle = new DummyWindowRepresentation
+            {
+                Dimensions = _theMiddle
+            };
+            var expectedDimensions = new Dimensions(new Point(expectedX, expectedY), _quarterSize);
+
+            //when
+            _quarterGrid.Move(windowExactlyInTheMiddle, direction);
+
+            //then
+            Assert.That(windowExactlyInTheMiddle.Dimensions, Is.EqualTo(expectedDimensions));
         }
     }
 }

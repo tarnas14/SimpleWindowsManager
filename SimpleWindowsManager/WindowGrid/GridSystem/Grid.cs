@@ -4,6 +4,7 @@ namespace SimpleWindowsManager.WindowGrid.GridSystem
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows.Forms;
     using Common;
     using Common.Windows;
 
@@ -59,10 +60,22 @@ namespace SimpleWindowsManager.WindowGrid.GridSystem
                     break;
             }
 
-            var gridElement =
-                elementsInTheDirectionWeAreMoving.OrderBy(element => element.Dimensions.Origin.DistanceTo(windowOrigin)).FirstOrDefault();
+            var gridElements =
+                elementsInTheDirectionWeAreMoving.OrderBy(element => element.Dimensions.Origin.DistanceTo(windowOrigin));
 
-            return gridElement ?? _gridElements.First();
+            switch (direction)
+            {
+                case GridDirections.Left:
+                case GridDirections.Right:
+                    gridElements = gridElements.ThenBy(element => element.Dimensions.Origin.Y);
+                    break;
+                case GridDirections.Down:
+                case GridDirections.Up:
+                    gridElements = gridElements.ThenBy(element => element.Dimensions.Origin.X);
+                    break;
+            }
+
+            return gridElements.FirstOrDefault() ?? _gridElements.First();
         }
 
         private GridElement GetGridElementWindowIsOn(WindowRepresentation window)
