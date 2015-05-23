@@ -37,25 +37,32 @@ namespace SimpleWindowsManager.WindowGrid.GridSystem
 
         private GridElement FindClosestGridElement(Point windowOrigin, GridDirections direction)
         {
-            var gridElementInLineHorizontally = _gridElements.Where(element => element.Dimensions.Origin.Y == windowOrigin.Y).OrderBy(element => element.Dimensions.Origin.X);
-
-            var gridElementInLinVertically = _gridElements.Where(element => element.Dimensions.Origin.X == windowOrigin.X).OrderBy(element => element.Dimensions.Origin.Y);
-
-            var defaultElement = _gridElements.First();
+            IEnumerable<GridElement> elementsInTheDirectionWeAreMoving = new List<GridElement>();
 
             switch (direction)
             {
                 case GridDirections.Left:
-                    return gridElementInLineHorizontally.LastOrDefault(element => element.Dimensions.Origin.X <= windowOrigin.X) ?? defaultElement;
+                    elementsInTheDirectionWeAreMoving =
+                        _gridElements.Where(element => element.Dimensions.Origin.X <= windowOrigin.X);
+                    break;
                 case GridDirections.Right:
-                    return gridElementInLineHorizontally.FirstOrDefault(element => element.Dimensions.Origin.X >= windowOrigin.X) ?? defaultElement;
+                    elementsInTheDirectionWeAreMoving =
+                        _gridElements.Where(element => element.Dimensions.Origin.X >= windowOrigin.X);
+                    break;
                 case GridDirections.Up:
-                    return gridElementInLinVertically.LastOrDefault(element => element.Dimensions.Origin.Y <= windowOrigin.Y) ?? defaultElement;
+                    elementsInTheDirectionWeAreMoving =
+                        _gridElements.Where(element => element.Dimensions.Origin.Y <= windowOrigin.Y);
+                    break;
                 case GridDirections.Down:
-                    return gridElementInLinVertically.FirstOrDefault(element => element.Dimensions.Origin.Y >= windowOrigin.Y) ?? defaultElement;
-                default:
-                    return defaultElement;
+                    elementsInTheDirectionWeAreMoving =
+                        _gridElements.Where(element => element.Dimensions.Origin.Y >= windowOrigin.Y);
+                    break;
             }
+
+            var gridElement =
+                elementsInTheDirectionWeAreMoving.OrderBy(element => element.Dimensions.Origin.DistanceTo(windowOrigin)).FirstOrDefault();
+
+            return gridElement ?? _gridElements.First();
         }
 
         private GridElement GetGridElementWindowIsOn(WindowRepresentation window)

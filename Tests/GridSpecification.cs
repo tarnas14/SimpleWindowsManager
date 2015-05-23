@@ -85,32 +85,18 @@
         }
 
         [Test]
-        [TestCase(GridDirections.Right)]
-        [TestCase(GridDirections.Left)]
-        [TestCase(GridDirections.Up)]
-        [TestCase(GridDirections.Down)]
-        public void ShouldMoveWindowToTheFirstGridElementIfItIsNotAlignedWithAnyGridElement(GridDirections direction)
-        {
-            //given
-            var windowNotAlignedWithAnyGridElement = new DummyWindowRepresentation
-            {
-                Dimensions = new Dimensions(new Point(800, 500), new Size(0, 0))
-            };
-
-            var expectedDimensions = _leftTop.Dimensions;
-
-            //when
-            _quarterGrid.Move(windowNotAlignedWithAnyGridElement, direction);
-
-            //then
-            Assert.That(windowNotAlignedWithAnyGridElement.Dimensions, Is.EqualTo(expectedDimensions));
-        }
-
-        [Test]
-        [TestCase(GridDirections.Left, 900, 540, 0, 540)]
-        [TestCase(GridDirections.Right, 900, 540, 960, 540)]
-        [TestCase(GridDirections.Up, 960, 500, 960, 0)]
-        [TestCase(GridDirections.Down, 960, 500, 960, 540)]
+        [TestCase(GridDirections.Left, 900, 540, 0, 540, TestName = "900,540-left-0,540")]
+        [TestCase(GridDirections.Right, 900, 540, 960, 540, TestName = "900,540-right-960,540")]
+        [TestCase(GridDirections.Up, 960, 500, 960, 0, TestName = "960,500-up-960,0")]
+        [TestCase(GridDirections.Down, 960, 500, 960, 540, TestName = "960,500-down-960,540")]
+        [TestCase(GridDirections.Left, 479, 269, 0, 0, TestName = "479,269-left-0,0")]
+        [TestCase(GridDirections.Left, 479, 271, 0, 540, TestName = "479,271-left-0,540")]
+        [TestCase(GridDirections.Right, 481, 269, 960, 0, TestName = "481,269-left-960,0")]
+        [TestCase(GridDirections.Right, 481, 271, 960, 540, TestName = "481,271-right-960,540")]
+        [TestCase(GridDirections.Up, 479, 269, 0, 0, TestName = "479,269-up-0,0")]
+        [TestCase(GridDirections.Down, 479, 271, 0, 540, TestName = "479,271-down-0,540")]
+        [TestCase(GridDirections.Up, 481, 269, 960, 0, TestName = "481,269-up-960,0")]
+        [TestCase(GridDirections.Down, 481, 271, 960, 540, TestName = "481,271-down-960,540")]
         public void ShouldMoveWindowToTheGridElementWithOriginClosestToTheWindowInTheDirectionWeWantToMoveIt(GridDirections direction, int windowX, int windowY, int expectedX, int expectedY)
         {
             //given

@@ -1,5 +1,7 @@
 namespace Common
 {
+    using System;
+
     public class Point
     {
         public int Y { get; private set; }
@@ -21,6 +23,13 @@ namespace Common
             }
 
             return otherPoint.X == X && otherPoint.Y == Y;
+        }
+
+        public double DistanceTo(Point point)
+        {
+            var dX = point.X - X;
+            var dY = point.Y - Y;
+            return Math.Sqrt(dY*dY + dX*dX);
         }
     }
 }
