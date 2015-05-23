@@ -18,6 +18,14 @@
         private Grid _quarterGrid;
         private Dimensions _dimensionsOutsideGrid;
 
+        //X****X*****
+        //*    *    *
+        //*    *    *
+        //X****X*****
+        //*    *    *
+        //*    *    *
+        //***********
+        //(0,0), (960,0), (0,540), (960,540)
         [SetUp]
         public void Setup()
         {
@@ -77,48 +85,6 @@
         }
 
         [Test]
-        [TestCase(GridDirections.Left, 0)]
-        [TestCase(GridDirections.Right, 960)]
-        public void ShouldMoveToClosestGridOriginWhenMovingHorizontally(GridDirections horizontalDirection, int originXCoordinate)
-        {
-            //given
-            var centerHorizontallyAlignedWindow = new DummyWindowRepresentation
-            {
-                Dimensions = new Dimensions(new Point(900, 540), new Size(0,0))
-            };
-
-            const int expectedYOriginCoordinate = 540;
-            var expectedDimensions = new Dimensions(new Point(originXCoordinate, expectedYOriginCoordinate),_quarterSize);
-
-            //when
-            _quarterGrid.Move(centerHorizontallyAlignedWindow, horizontalDirection);
-
-            //then
-            Assert.That(centerHorizontallyAlignedWindow.Dimensions, Is.EqualTo(expectedDimensions));
-        }
-
-        [Test]
-        [TestCase(GridDirections.Up, 0)]
-        [TestCase(GridDirections.Down, 540)]
-        public void ShouldMoveToClosestGridOriginWhenMovingVertically(GridDirections verticalDirection, int originYCoordinate)
-        {
-            //given
-            var centerVerticallyAlignedWindow = new DummyWindowRepresentation
-            {
-                Dimensions = new Dimensions(new Point(960, 500), new Size(0, 0))
-            };
-
-            const int expectedXOriginCoordinate = 960;
-            var expectedDimensions = new Dimensions(new Point(expectedXOriginCoordinate, originYCoordinate), _quarterSize);
-
-            //when
-            _quarterGrid.Move(centerVerticallyAlignedWindow, verticalDirection);
-
-            //then
-            Assert.That(centerVerticallyAlignedWindow.Dimensions, Is.EqualTo(expectedDimensions));
-        }
-
-        [Test]
         [TestCase(GridDirections.Right)]
         [TestCase(GridDirections.Left)]
         [TestCase(GridDirections.Up)]
@@ -138,6 +104,27 @@
 
             //then
             Assert.That(windowNotAlignedWithAnyGridElement.Dimensions, Is.EqualTo(expectedDimensions));
+        }
+
+        [Test]
+        [TestCase(GridDirections.Left, 900, 540, 0, 540)]
+        [TestCase(GridDirections.Right, 900, 540, 960, 540)]
+        [TestCase(GridDirections.Up, 960, 500, 960, 0)]
+        [TestCase(GridDirections.Down, 960, 500, 960, 540)]
+        public void ShouldMoveWindowToTheGridElementWithOriginClosestToTheWindowInTheDirectionWeWantToMoveIt(GridDirections direction, int windowX, int windowY, int expectedX, int expectedY)
+        {
+            //given
+            var window = new DummyWindowRepresentation
+            {
+                Dimensions = new Dimensions(new Point(windowX, windowY), _quarterSize)
+            };
+            var expectedDimensions = new Dimensions(new Point(expectedX, expectedY), _quarterSize);
+
+            //when
+            _quarterGrid.Move(window, direction);
+
+            //then
+            Assert.That(window.Dimensions, Is.EqualTo(expectedDimensions));
         }
     }
 }
