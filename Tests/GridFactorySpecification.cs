@@ -66,5 +66,59 @@
             //then
             Assert.That(dummyWindow.Dimensions, Is.EqualTo(bottomRight));
         }
+
+        //X*****
+        //*    *
+        //*    *
+        //******
+        //(0,0), (960,0), (0,540), (960,540)
+        //size: 960x540
+        //
+        [Test]
+        public void ShouldNotMoveWindowIfItHasNoNeighbour()
+        {
+            //given
+            var size = new Size(960, 540);
+            var gridElement = new Dimensions(new Point(0, 0), size);
+
+            var config = new GridConfig
+            {
+                GridElements = new[]
+                {
+                    gridElement
+                }
+            };
+
+            var grid = GridFactory.FromConfig(config);
+            var dummyWindow = new DummyWindowRepresentation
+            {
+                Dimensions = new Dimensions(new Point(1, 2), new Size(55, 55))
+            };
+
+            //when
+            grid.Move(dummyWindow, GridDirections.Left);
+            //then
+            Assert.That(dummyWindow.Dimensions, Is.EqualTo(gridElement));
+
+            //when
+            grid.Move(dummyWindow, GridDirections.Right);
+            //then
+            Assert.That(dummyWindow.Dimensions, Is.EqualTo(gridElement));
+
+            //when
+            grid.Move(dummyWindow, GridDirections.Down);
+            //then
+            Assert.That(dummyWindow.Dimensions, Is.EqualTo(gridElement));
+
+            //when
+            grid.Move(dummyWindow, GridDirections.Left);
+            //then
+            Assert.That(dummyWindow.Dimensions, Is.EqualTo(gridElement));
+
+            //when
+            grid.Move(dummyWindow, GridDirections.Up);
+            //then
+            Assert.That(dummyWindow.Dimensions, Is.EqualTo(gridElement));
+        }
     }
 }

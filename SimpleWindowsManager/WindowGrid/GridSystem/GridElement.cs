@@ -3,35 +3,12 @@ namespace SimpleWindowsManager.WindowGrid.GridSystem
     using Common;
     using Common.Windows;
 
-    public class GridElement
+    public interface GridElement
     {
-        private readonly GridElement[] _neighbours;
-        public Dimensions Dimensions { get; private set; }
-
-        public GridElement(Dimensions dimensions)
-        {
-            _neighbours = new GridElement[4];
-            Dimensions = dimensions;
-        }
-
-        public void SetNeighbour(GridElement gridElement, GridDirections direction)
-        {
-            _neighbours[(int)direction] = gridElement;
-        }
-
-        public void SetWindow(WindowRepresentation window)
-        {
-            window.SetDimensions(Dimensions);
-        }
-
-        public bool HasWindow(WindowRepresentation window)
-        {
-            return Dimensions.Equals(window.Dimensions);
-        }
-
-        public GridElement GetNeighbour(GridDirections direction)
-        {
-            return _neighbours[(int)direction];
-        }
+        Dimensions Dimensions { get; }
+        void SetNeighbour(GridElement gridElement, GridDirections direction);
+        void SetWindow(WindowRepresentation window);
+        bool HasWindow(WindowRepresentation window);
+        GridElement GetNeighbour(GridDirections direction);
     }
 }

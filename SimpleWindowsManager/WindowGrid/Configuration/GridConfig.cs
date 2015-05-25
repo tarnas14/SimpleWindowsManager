@@ -3,7 +3,6 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
     using System.Collections.Generic;
     using Common.Configuration;
     using Common;
-    using Newtonsoft.Json;
 
     public class GridConfig : Configuration<GridConfig>
     {
@@ -11,7 +10,6 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
         public int[][] NeighbourMap { get; set; }
         public int MainElement { get; set; }
 
-        [JsonIgnore]
         public GridConfig Default
         {
             get

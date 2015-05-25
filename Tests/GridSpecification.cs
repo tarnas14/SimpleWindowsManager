@@ -1,8 +1,6 @@
 ﻿namespace Tests
 {
     using Common;
-    using Common.Windows;
-    using FakeItEasy;
     using Halp;
     using NUnit.Framework;
     using SimpleWindowsManager.WindowGrid.GridSystem;
@@ -10,10 +8,10 @@
     [TestFixture]
     class GridSpecification
     {
-        private GridElement _leftTop;
-        private GridElement _centerTop;
-        private GridElement _leftCenter;
-        private GridElement _centerCenter;
+        private SquareGridElement _leftTop;
+        private SquareGridElement _centerTop;
+        private SquareGridElement _leftCenter;
+        private SquareGridElement _centerCenter;
         private Size _quarterSize;
         private Grid _quarterGrid;
         private Dimensions _dimensionsOutsideGrid;
@@ -31,10 +29,10 @@
         public void Setup()
         {
             _quarterSize = new Size(960, 540);
-            _leftTop = new GridElement(new Dimensions(new Point(0, 0), _quarterSize));
-            _centerTop = new GridElement(new Dimensions(new Point(960, 0), _quarterSize));
-            _leftCenter = new GridElement(new Dimensions(new Point(0, 540), _quarterSize));
-            _centerCenter = new GridElement(new Dimensions(new Point(960, 540), _quarterSize));
+            _leftTop = new SquareGridElement(new Dimensions(new Point(0, 0), _quarterSize));
+            _centerTop = new SquareGridElement(new Dimensions(new Point(960, 0), _quarterSize));
+            _leftCenter = new SquareGridElement(new Dimensions(new Point(0, 540), _quarterSize));
+            _centerCenter = new SquareGridElement(new Dimensions(new Point(960, 540), _quarterSize));
 
             _leftTop.SetNeighbour(_centerTop, GridDirections.Left);
             _leftTop.SetNeighbour(_centerTop, GridDirections.Right);

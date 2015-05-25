@@ -53,6 +53,8 @@
     <Compile Include="WindowGrid\Configuration\GridFactory.cs" />
     <Compile Include="WindowGrid\GridSystem\Grid.cs" />
     <Compile Include="WindowGrid\GridSystem\GridElement.cs" />
+    <Compile Include="WindowGrid\GridSystem\NullGridElement.cs" />
+    <Compile Include="WindowGrid\GridSystem\SquareGridElement.cs" />
     <Compile Include="WindowGrid\WindowsOnGridController.cs" />
     <Compile Include="WindowSwitcher\AutoCompleteCombobox.cs">
       <SubType>UserControl</SubType>

@@ -16,7 +16,7 @@ namespace Tests
             var gridElementDimensions = new Dimensions(new Point(1, 2), new Size(3, 4));
             var dimensionsOutsideGrid = new Dimensions(new Point(5, 6), new Size(7, 8));
 
-            var gridElement = new GridElement(gridElementDimensions);
+            var gridElement = new SquareGridElement(gridElementDimensions);
 
             var windowOutsideGrid = A.Fake<WindowRepresentation>();
             A.CallTo(() => windowOutsideGrid.Dimensions).Returns(dimensionsOutsideGrid);
@@ -34,7 +34,7 @@ namespace Tests
         {
             //given
             var window = A.Fake<WindowRepresentation>();
-            var gridElement = new GridElement(new Dimensions(new Point(1, 2), new Size(3, 4)));
+            var gridElement = new SquareGridElement(new Dimensions(new Point(1, 2), new Size(3, 4)));
 
             //when
             gridElement.SetWindow(window);

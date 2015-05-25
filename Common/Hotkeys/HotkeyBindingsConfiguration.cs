@@ -3,7 +3,6 @@
     using Configuration;
     using System;
     using System.Windows.Forms;
-    using Newtonsoft.Json;
 
     public class HotkeyBindingsConfiguration : Configuration<HotkeyBindingsConfiguration>, IDisposable
     {
@@ -17,7 +16,6 @@
             WindowGridConfiguration.Dispose();
         }
 
-        [JsonIgnore]
         public HotkeyBindingsConfiguration Default
         {
             get

@@ -8,17 +8,20 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
     {
         public static Grid FromConfig(GridConfig gridConfig)
         {
-            var gridElements = gridConfig.GridElements.Select(dimensions => new GridElement(dimensions)).ToList();
+            var gridElements = gridConfig.GridElements.Select(dimensions => new SquareGridElement(dimensions)).ToList();
 
-            for (int i = 0; i < gridElements.Count; i++)
+            if (gridConfig.NeighbourMap != null)
             {
-                var neighbourMap = gridConfig.NeighbourMap[i];
-                var gridElement = gridElements[i];
+                for (int i = 0; i < gridElements.Count; i++)
+                {
+                    var neighbourMap = gridConfig.NeighbourMap[i];
+                    var gridElement = gridElements[i];
 
-                gridElement.SetNeighbour(gridElements[neighbourMap[0]], GridDirections.Up);
-                gridElement.SetNeighbour(gridElements[neighbourMap[1]], GridDirections.Right);
-                gridElement.SetNeighbour(gridElements[neighbourMap[2]], GridDirections.Down);
-                gridElement.SetNeighbour(gridElements[neighbourMap[3]], GridDirections.Left);
+                    gridElement.SetNeighbour(gridElements[neighbourMap[0]], GridDirections.Up);
+                    gridElement.SetNeighbour(gridElements[neighbourMap[1]], GridDirections.Right);
+                    gridElement.SetNeighbour(gridElements[neighbourMap[2]], GridDirections.Down);
+                    gridElement.SetNeighbour(gridElements[neighbourMap[3]], GridDirections.Left);
+                }
             }
 
             var gridFromConfig = new Grid();
