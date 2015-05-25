@@ -2,6 +2,7 @@
 {
     using System;
     using System.Windows.Forms;
+    using Common.Configuration;
     using Common.Hotkeys;
     using Common.Windows;
     using WindowGrid;
@@ -24,13 +25,13 @@
 
         public void Run()
         {
-            var bindingsConfig = HotkeyBindingsConfigurationFactory.FromFile("bindings.json");
+            var bindingsConfig = ConfigurationFactory.FromFile<HotkeyBindingsConfiguration>("bindings.json");
 
             var mainForm = new Switcher(bindingsConfig.WindowSwitcherHotkey);
 
             new WindowsOnGridController(
                 bindingsConfig.WindowGridConfiguration, 
-                GridFactory.FromConfig(GridConfig.FromFile("grindConfig.json")),
+                GridFactory.FromConfig(ConfigurationFactory.FromFile<GridConfig>("grindConfig.json")),
                 new ManagedWindowsApiWindowManager());
 
             Application.Run(mainForm);

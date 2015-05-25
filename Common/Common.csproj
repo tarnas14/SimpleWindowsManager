@@ -48,13 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\ConfigurationFactory.cs" />
     <Compile Include="Dimensions.cs" />
     <Compile Include="Hotkeys\GlobalHotkey.cs" />
     <Compile Include="GridDirections.cs" />
     <Compile Include="Hotkeys\GridHotkeyConfiguration.cs" />
     <Compile Include="Hotkeys\ManagedWindowsApiGlobalHotkey.cs" />
     <Compile Include="Hotkeys\HotkeyBindingsConfiguration.cs" />
-    <Compile Include="Hotkeys\HotkeyBindingsConfigurationFactory.cs" />
     <Compile Include="Hotkeys\WindowGridHotkeyConfiguration.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Size.cs" />

@@ -1,17 +1,18 @@
 namespace SimpleWindowsManager.WindowGrid.Configuration
 {
     using System.Collections.Generic;
-    using System.IO;
+    using Common.Configuration;
     using Common;
     using Newtonsoft.Json;
 
-    public class GridConfig
+    public class GridConfig : Configuration<GridConfig>
     {
         public IList<Dimensions> GridElements { get; set; }
         public int[][] NeighbourMap { get; set; }
         public int MainElement { get; set; }
 
-        private static GridConfig DummyConfiguration
+        [JsonIgnore]
+        public GridConfig Default
         {
             get
             {
@@ -30,38 +31,6 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
                     }
                 };
             }
-        }
-
-        public static GridConfig FromFile(string gridConfigFile)
-        {
-            if (!File.Exists(gridConfigFile))
-            {
-                var defaultConfig = DummyConfiguration;
-                SetupDefaultGridFile(defaultConfig, gridConfigFile);
-
-                return defaultConfig;
-            }
-
-            var fileContents = File.ReadAllText(gridConfigFile);
-
-            var configuration = JsonConvert.DeserializeObject<GridConfig>(fileContents);
-
-            if (configuration == null)
-            {
-                var defaultConfig = DummyConfiguration;
-                SetupDefaultGridFile(defaultConfig, gridConfigFile);
-
-                return defaultConfig;
-            }
-
-            return configuration;
-        }
-
-        private static void SetupDefaultGridFile(GridConfig defaultGridConfig, string hotkeyBindingsConfigurationFile)
-        {
-            var serializedConfig = JsonConvert.SerializeObject(defaultGridConfig);
-
-            File.WriteAllText(hotkeyBindingsConfigurationFile, serializedConfig);
         }
     }
 }

@@ -1,27 +1,12 @@
 ﻿namespace Common.Hotkeys
 {
+    using Configuration;
     using System;
     using System.Windows.Forms;
+    using Newtonsoft.Json;
 
-    public class HotkeyBindingsConfiguration : IDisposable
+    public class HotkeyBindingsConfiguration : Configuration<HotkeyBindingsConfiguration>, IDisposable
     {
-        public HotkeyBindingsConfiguration()
-        {
-            WindowSwitcherHotkey = new ManagedWindowsApiGlobalHotkey
-            {
-                Ctrl = true,
-                Shift = true,
-                WindowsKey = true,
-                KeyCode = Keys.Q
-            };
-
-            WindowGridConfiguration = new WindowGridHotkeyConfiguration(
-                new ManagedWindowsApiGlobalHotkey {Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Left},
-                new ManagedWindowsApiGlobalHotkey {Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Right},
-                new ManagedWindowsApiGlobalHotkey {Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Up},
-                new ManagedWindowsApiGlobalHotkey {Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Down});
-        }
-
         public ManagedWindowsApiGlobalHotkey WindowSwitcherHotkey { get; set; }
 
         public WindowGridHotkeyConfiguration WindowGridConfiguration { get; set; }
@@ -30,6 +15,30 @@
         {
             WindowSwitcherHotkey.Dispose();
             WindowGridConfiguration.Dispose();
+        }
+
+        [JsonIgnore]
+        public HotkeyBindingsConfiguration Default
+        {
+            get
+            {
+                return new HotkeyBindingsConfiguration
+                {
+                    WindowSwitcherHotkey = new ManagedWindowsApiGlobalHotkey
+                    {
+                        Ctrl = true,
+                        Shift = true,
+                        WindowsKey = true,
+                        KeyCode = Keys.Q
+                    },
+                    WindowGridConfiguration = new WindowGridHotkeyConfiguration(
+                        new ManagedWindowsApiGlobalHotkey { Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Left },
+                        new ManagedWindowsApiGlobalHotkey { Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Right },
+                        new ManagedWindowsApiGlobalHotkey { Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Up },
+                        new ManagedWindowsApiGlobalHotkey { Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Down }
+                    )
+                };
+            }
         }
     }
 }
