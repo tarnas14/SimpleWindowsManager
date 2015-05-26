@@ -12,15 +12,15 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
 
             if (gridConfig.NeighbourMap != null)
             {
-                for (int i = 0; i < gridElements.Count; i++)
+                foreach (var neighboursMap in gridConfig.NeighbourMap)
                 {
-                    var neighbourMap = gridConfig.NeighbourMap[i];
-                    var gridElement = gridElements[i];
+                    var neighbours = neighboursMap.Neighbours;
+                    var gridElement = gridElements[neighboursMap.Id];
 
-                    gridElement.SetNeighbour(gridElements[neighbourMap[0]], GridDirections.Up);
-                    gridElement.SetNeighbour(gridElements[neighbourMap[1]], GridDirections.Right);
-                    gridElement.SetNeighbour(gridElements[neighbourMap[2]], GridDirections.Down);
-                    gridElement.SetNeighbour(gridElements[neighbourMap[3]], GridDirections.Left);
+                    gridElement.SetNeighbour(gridElements[neighbours[0]], GridDirections.Up);
+                    gridElement.SetNeighbour(gridElements[neighbours[1]], GridDirections.Right);
+                    gridElement.SetNeighbour(gridElements[neighbours[2]], GridDirections.Down);
+                    gridElement.SetNeighbour(gridElements[neighbours[3]], GridDirections.Left);
                 }
             }
 

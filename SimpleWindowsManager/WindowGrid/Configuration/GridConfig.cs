@@ -7,7 +7,7 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
     public class GridConfig : Configuration<GridConfig>
     {
         public IList<Dimensions> GridElements { get; set; }
-        public int[][] NeighbourMap { get; set; }
+        public IList<NeighboursMap> NeighbourMap { get; set; }
         public int MainElement { get; set; }
 
         public GridConfig Default
@@ -22,10 +22,18 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
                         new Dimensions(new Point(-1440, 270), halfOfTheScreen),
                         new Dimensions(new Point(480, 270), halfOfTheScreen)
                     },
-                    NeighbourMap = new[]
+                    NeighbourMap = new NeighboursMap[]
                     {
-                        new [] { 0, 1, 0, 1 },
-                        new [] { 1, 0, 1, 0 }
+                        new NeighboursMap
+                        {
+                            Id = 0,
+                            Neighbours = new [] { 0, 1, 0, 1 }
+                        },
+                        new NeighboursMap
+                        {
+                            Id = 1,
+                            Neighbours = new [] { 1, 0, 1, 0 }
+                        }
                     }
                 };
             }
