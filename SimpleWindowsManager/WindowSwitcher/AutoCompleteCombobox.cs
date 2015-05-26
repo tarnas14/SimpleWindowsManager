@@ -23,16 +23,28 @@
 
         private void ComboBoxOnKeyUp(object sender, KeyEventArgs e)
         {
-            if (AcceptedItem(e))
+            if (UserSelectedItem(e))
             {
-                OnItemSelected();
+                NotifyAboutItemSelected();
+                return;
+            }
+
+            if (UserHitTab(e))
+            {
+                HighlightNextItemOnList();
                 return;
             }
 
             AutoCompleteUpdate(e);
         }
 
-        private void OnItemSelected()
+        private bool UserSelectedItem(KeyEventArgs keyEventArgs)
+        {
+            return keyEventArgs.KeyCode == Keys.Enter && !keyEventArgs.Alt && !keyEventArgs.Control &&
+                   !keyEventArgs.Shift;
+        }
+
+        private void NotifyAboutItemSelected()
         {
             var selectedItem = _comboBox.SelectedItem as ICanBeSearchedFor;
 
@@ -40,6 +52,22 @@
             {
                 ItemSelected(this, new ElementSelectedEventArgs{ SelectedItem = selectedItem });
             }
+        }
+
+        private bool UserHitTab(KeyEventArgs keyEventArgs)
+        {
+            return !keyEventArgs.Alt && !keyEventArgs.Shift && !keyEventArgs.Control && keyEventArgs.KeyCode == Keys.Tab;
+        }
+
+        private void HighlightNextItemOnList()
+        {
+            if (_comboBox.SelectedIndex + 1 == _comboBox.Items.Count)
+            {
+                _comboBox.SelectedIndex = 0;
+                return;
+            }
+
+            _comboBox.SelectedIndex++;
         }
 
         private void AutoCompleteUpdate(KeyEventArgs keyEventArgs)
@@ -66,12 +94,6 @@
             }
 
             _comboBox.Items.AddRange(matchingItems.ToArray());
-        }
-
-        private bool AcceptedItem(KeyEventArgs keyEventArgs)
-        {
-            return keyEventArgs.KeyCode == Keys.Enter && !keyEventArgs.Alt && !keyEventArgs.Control &&
-                   !keyEventArgs.Shift;
         }
 
         private bool IsInput(KeyEventArgs keyEventArgs)
