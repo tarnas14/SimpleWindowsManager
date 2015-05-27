@@ -61,6 +61,11 @@
 
         private void HighlightNextItemOnList()
         {
+            if (_comboBox.Items.Count == 0)
+            {
+                return;
+            }
+
             if (_comboBox.SelectedIndex + 1 == _comboBox.Items.Count)
             {
                 _comboBox.SelectedIndex = 0;
