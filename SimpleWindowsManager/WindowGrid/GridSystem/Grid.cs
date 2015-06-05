@@ -8,10 +8,12 @@ namespace SimpleWindowsManager.WindowGrid.GridSystem
 
     public class Grid
     {
+        private readonly WindowManager _windowManager;
         private readonly ICollection<GridElement> _gridElements;
 
-        public Grid()
+        public Grid(WindowManager windowManager)
         {
+            _windowManager = windowManager;
             _gridElements = new Collection<GridElement>();
         }
 
@@ -20,8 +22,9 @@ namespace SimpleWindowsManager.WindowGrid.GridSystem
             _gridElements.Add(gridElement);
         }
 
-        public void Move(WindowRepresentation window, GridDirections direction)
+        public void MoveActiveWindow(GridDirections direction)
         {
+            var window = _windowManager.GetActiveWindow();
             var windowGridElement = GetGridElementWindowIsOn(window);
 
             if (windowGridElement == null)

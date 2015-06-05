@@ -1,6 +1,8 @@
 ﻿namespace Tests
 {
     using Common;
+    using Common.Windows;
+    using FakeItEasy;
     using Halp;
     using NUnit.Framework;
     using SimpleWindowsManager.WindowGrid.GridSystem;
@@ -14,8 +16,8 @@
         private SquareGridElement _centerCenter;
         private Size _quarterSize;
         private Grid _quarterGrid;
-        private Dimensions _dimensionsOutsideGrid;
-        private Dimensions _theMiddle = new Dimensions(new Point(480, 270), new Size(480, 270));
+        private readonly Dimensions _theMiddle = new Dimensions(new Point(480, 270), new Size(480, 270));
+        private WindowManager _windowManager;
 
         //X****X*****
         //*    *    *
@@ -28,6 +30,8 @@
         [SetUp]
         public void Setup()
         {
+            _windowManager = A.Fake<WindowManager>();
+
             _quarterSize = new Size(960, 540);
             _leftTop = new SquareGridElement(new Dimensions(new Point(0, 0), _quarterSize));
             _centerTop = new SquareGridElement(new Dimensions(new Point(960, 0), _quarterSize));
@@ -51,13 +55,11 @@
             _centerCenter.SetNeighbour(_centerTop, GridDirections.Down);
             _centerCenter.SetNeighbour(_centerTop, GridDirections.Up);
 
-            _quarterGrid = new Grid();
+            _quarterGrid = new Grid(_windowManager);
             _quarterGrid.AddElement(_leftTop);
             _quarterGrid.AddElement(_leftCenter);
             _quarterGrid.AddElement(_centerCenter);
             _quarterGrid.AddElement(_centerTop);
-
-            _dimensionsOutsideGrid = new Dimensions(new Point(480, 270), _quarterSize);
         }
 
         [Test]
@@ -72,12 +74,13 @@
             {
                 Dimensions = _leftTop.Dimensions
             };
-
+            A.CallTo(() => _windowManager.GetActiveWindow()).Returns(windowInLeftTopQuarter);
+    
             var expectedDimensions = new Dimensions(new Point(expectedX, expectedY),
                 _quarterSize);
 
             //when
-            _quarterGrid.Move(windowInLeftTopQuarter, moveDirection);
+            _quarterGrid.MoveActiveWindow(moveDirection);
 
             //then
             Assert.That(windowInLeftTopQuarter.Dimensions, Is.EqualTo(expectedDimensions));
@@ -103,10 +106,11 @@
             {
                 Dimensions = new Dimensions(new Point(windowX, windowY), _quarterSize)
             };
+            A.CallTo(() => _windowManager.GetActiveWindow()).Returns(window);
             var expectedDimensions = new Dimensions(new Point(expectedX, expectedY), _quarterSize);
 
             //when
-            _quarterGrid.Move(window, direction);
+            _quarterGrid.MoveActiveWindow(direction);
 
             //then
             Assert.That(window.Dimensions, Is.EqualTo(expectedDimensions));
@@ -122,10 +126,11 @@
             {
                 Dimensions = _theMiddle
             };
+            A.CallTo(() => _windowManager.GetActiveWindow()).Returns(windowExactlyInTheMiddle);
             var expectedDimensions = new Dimensions(new Point(expectedX, expectedY), _quarterSize);
 
             //when
-            _quarterGrid.Move(windowExactlyInTheMiddle, direction);
+            _quarterGrid.MoveActiveWindow(direction);
 
             //then
             Assert.That(windowExactlyInTheMiddle.Dimensions, Is.EqualTo(expectedDimensions));
@@ -142,10 +147,11 @@
             {
                 Dimensions = _theMiddle
             };
+            A.CallTo(() => _windowManager.GetActiveWindow()).Returns(windowExactlyInTheMiddle);
             var expectedDimensions = new Dimensions(new Point(expectedX, expectedY), _quarterSize);
 
             //when
-            _quarterGrid.Move(windowExactlyInTheMiddle, direction);
+            _quarterGrid.MoveActiveWindow(direction);
 
             //then
             Assert.That(windowExactlyInTheMiddle.Dimensions, Is.EqualTo(expectedDimensions));

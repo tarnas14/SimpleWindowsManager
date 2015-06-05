@@ -28,21 +28,21 @@
         {
             var bindingsConfig = ConfigurationFactory.FromFile<HotkeyBindingsConfiguration>("bindings.json");
 
-            var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("grindConfig.json");
-            var grids = gridManagerConfig.GridConfigurations.Select(GridFactory.FromConfig).ToList();
+            var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("grindManagerConfig.json");
+            var gridFactory = new GridFactory(new ManagedWindowsApiWindowManager());
+            var grids = gridManagerConfig.GridConfigurations.Select(gridFactory.FromConfig).ToList();
 
-            var mainForm = new Switcher(bindingsConfig.WindowSwitcherHotkey, grids);
+            var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey);
 
             var windowsOnGridController = new WindowsOnGridController(
                 bindingsConfig.WindowGridConfiguration, 
-                grids,
-                new ManagedWindowsApiWindowManager());
+                grids);
 
-            mainForm.GridConfigSelected += windowsOnGridController.LoadGrid;
+            windowsOnGridController.LoadGrid(this, new GridSelectedEventArgs {Id = 0});
 
-            Application.Run(mainForm);
+            Application.Run(mainUi);
 
-            mainForm.Dispose();
+            mainUi.Dispose();
             bindingsConfig.Dispose();
         }
     }

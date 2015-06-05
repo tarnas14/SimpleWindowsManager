@@ -22,7 +22,6 @@
             A.CallTo(() => activeWindow.Dimensions).Returns(dimensions);
 
             var windowManager = A.Fake<WindowManager>();
-
             A.CallTo(() => windowManager.GetActiveWindow()).Returns(activeWindow);
 
             var dummyHotkeyConfiguration = A.Fake<GridHotkeyConfiguration>();
@@ -31,7 +30,7 @@
             A.CallTo(() => dummyHotkeyConfiguration.Up).Returns(A.Fake<GlobalHotkey>());
             A.CallTo(() => dummyHotkeyConfiguration.Down).Returns(A.Fake<GlobalHotkey>());
 
-            var grid = new Grid();
+            var grid = new Grid(windowManager);
             var gridElement = new SquareGridElement(new Dimensions(new Point(0,0), new Size(1, 1)));
             grid.AddElement(gridElement);
             var grids = new List<Grid>
@@ -39,7 +38,7 @@
                 grid
             };
 
-            var windowsOnGridController = new WindowsOnGridController(dummyHotkeyConfiguration, grids, windowManager);
+            var windowsOnGridController = new WindowsOnGridController(dummyHotkeyConfiguration, grids);
             windowsOnGridController.LoadGrid(this, new GridSelectedEventArgs{Id = 0});
 
             //when

@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Common;
     using Common.Hotkeys;
-    using Common.Windows;
     using GridSystem;
     using WindowSwitcher;
 
@@ -11,49 +10,31 @@
     {
         private readonly GridHotkeyConfiguration _hotkeyConfiguration;
         private readonly IList<Grid> _grids;
-        private readonly WindowManager _windowManager;
 
-        public WindowsOnGridController(GridHotkeyConfiguration hotkeyConfiguration, IList<Grid> grids, WindowManager windowManager)
+        public WindowsOnGridController(GridHotkeyConfiguration hotkeyConfiguration, IList<Grid> grids)
         {
             _hotkeyConfiguration = hotkeyConfiguration;
             _grids = grids;
-            _windowManager = windowManager;
         }
 
-        private static void BindEverything(GridHotkeyConfiguration hotkeyConfiguration, Grid grid, WindowManager windowManager)
+        private static void BindEverything(GridHotkeyConfiguration hotkeyConfiguration, Grid grid)
         {
             hotkeyConfiguration.Left.Enable();
-            hotkeyConfiguration.Left.HotkeyPressed += (sender, args) =>
-            {
-                var activeWindow = windowManager.GetActiveWindow();
-                grid.Move(activeWindow, GridDirections.Left);
-            };
+            hotkeyConfiguration.Left.HotkeyPressed += (sender, args) => grid.MoveActiveWindow(GridDirections.Left);
 
             hotkeyConfiguration.Right.Enable();
-            hotkeyConfiguration.Right.HotkeyPressed += (sender, args) =>
-            {
-                var activeWindow = windowManager.GetActiveWindow();
-                grid.Move(activeWindow, GridDirections.Right);
-            };
+            hotkeyConfiguration.Right.HotkeyPressed += (sender, args) => grid.MoveActiveWindow(GridDirections.Right);
 
             hotkeyConfiguration.Down.Enable();
-            hotkeyConfiguration.Down.HotkeyPressed += (sender, args) =>
-            {
-                var activeWindow = windowManager.GetActiveWindow();
-                grid.Move(activeWindow, GridDirections.Down);
-            };
+            hotkeyConfiguration.Down.HotkeyPressed += (sender, args) => grid.MoveActiveWindow(GridDirections.Down);
 
             hotkeyConfiguration.Up.Enable();
-            hotkeyConfiguration.Up.HotkeyPressed += (sender, args) =>
-            {
-                var activeWindow = windowManager.GetActiveWindow();
-                grid.Move(activeWindow, GridDirections.Up);
-            };
+            hotkeyConfiguration.Up.HotkeyPressed += (sender, args) => grid.MoveActiveWindow(GridDirections.Up);
         }
 
         public void LoadGrid(object sender, GridSelectedEventArgs e)
         {
-            BindEverything(_hotkeyConfiguration, _grids[e.Id], _windowManager);
+            BindEverything(_hotkeyConfiguration, _grids[e.Id]);
         }
     }
 }

@@ -2,11 +2,19 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
 {
     using System.Linq;
     using Common;
+    using Common.Windows;
     using GridSystem;
 
     public class GridFactory
     {
-        public static Grid FromConfig(GridConfig gridConfig)
+        private readonly WindowManager _windowManager;
+
+        public GridFactory(WindowManager windowManager)
+        {
+            _windowManager = windowManager;
+        }
+
+        public Grid FromConfig(GridConfig gridConfig)
         {
             var gridElements = gridConfig.GridElements.Select(dimensions => new SquareGridElement(dimensions)).ToList();
 
@@ -24,7 +32,7 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
                 }
             }
 
-            var gridFromConfig = new Grid();
+            var gridFromConfig = new Grid(_windowManager);
             gridElements.ForEach(gridFromConfig.AddElement);
 
             return gridFromConfig;
