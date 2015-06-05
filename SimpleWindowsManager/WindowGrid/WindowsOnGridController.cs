@@ -1,15 +1,23 @@
 ﻿namespace SimpleWindowsManager.WindowGrid
 {
+    using System.Collections.Generic;
     using Common;
     using Common.Hotkeys;
     using Common.Windows;
     using GridSystem;
+    using WindowSwitcher;
 
     public class WindowsOnGridController
     {
-        public WindowsOnGridController(GridHotkeyConfiguration hotkeyConfiguration, Grid grid, WindowManager windowManager)
+        private readonly GridHotkeyConfiguration _hotkeyConfiguration;
+        private readonly IList<Grid> _grids;
+        private readonly WindowManager _windowManager;
+
+        public WindowsOnGridController(GridHotkeyConfiguration hotkeyConfiguration, IList<Grid> grids, WindowManager windowManager)
         {
-            BindEverything(hotkeyConfiguration, grid, windowManager);
+            _hotkeyConfiguration = hotkeyConfiguration;
+            _grids = grids;
+            _windowManager = windowManager;
         }
 
         private static void BindEverything(GridHotkeyConfiguration hotkeyConfiguration, Grid grid, WindowManager windowManager)
@@ -41,6 +49,11 @@
                 var activeWindow = windowManager.GetActiveWindow();
                 grid.Move(activeWindow, GridDirections.Up);
             };
+        }
+
+        public void LoadGrid(object sender, GridSelectedEventArgs e)
+        {
+            BindEverything(_hotkeyConfiguration, _grids[e.Id], _windowManager);
         }
     }
 }

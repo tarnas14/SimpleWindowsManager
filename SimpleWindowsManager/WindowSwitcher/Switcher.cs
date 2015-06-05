@@ -9,18 +9,32 @@
     using Common.Hotkeys;
     using Common.Windows;
     using Properties;
+    using WindowGrid.GridSystem;
 
     public partial class Switcher : Form
     {
+        private readonly List<Grid> _grids;
         private NotifyIcon _notifyIcon;
 
-        public Switcher(GlobalHotkey switcherHotkey)
+        public Switcher(GlobalHotkey switcherHotkey, List<Grid> grids)
         {
+            _grids = grids;
             InitializeComponent();
             InitializeTrayIcon();
             SetupGlobalHotkey(switcherHotkey);
             SetupWindowSelection();
             HideWindowFromAltTabList();
+            OnGridSelected(0);
+        }
+
+        public event EventHandler<GridSelectedEventArgs> GridConfigSelected;
+
+        private void OnGridSelected(int gridId)
+        {
+            if (GridConfigSelected != null)
+            {
+                GridConfigSelected(this, new GridSelectedEventArgs {Id = gridId});
+            }
         }
 
         private void HideWindowFromAltTabList()
@@ -106,5 +120,10 @@
             _notifyIcon.Dispose();
             base.Dispose();
         }
+    }
+
+    public class GridSelectedEventArgs : EventArgs
+    {
+        public int Id { get; set; }
     }
 }

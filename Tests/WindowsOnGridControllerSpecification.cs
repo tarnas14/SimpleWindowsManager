@@ -1,5 +1,6 @@
 ﻿namespace Tests
 {
+    using System.Collections.Generic;
     using Common;
     using Common.Hotkeys;
     using Common.Windows;
@@ -7,6 +8,7 @@
     using NUnit.Framework;
     using SimpleWindowsManager.WindowGrid;
     using SimpleWindowsManager.WindowGrid.GridSystem;
+    using SimpleWindowsManager.WindowSwitcher;
 
     [TestFixture]
     class WindowsOnGridControllerSpecification
@@ -32,8 +34,13 @@
             var grid = new Grid();
             var gridElement = new SquareGridElement(new Dimensions(new Point(0,0), new Size(1, 1)));
             grid.AddElement(gridElement);
+            var grids = new List<Grid>
+            {
+                grid
+            };
 
-            new WindowsOnGridController(dummyHotkeyConfiguration, grid, windowManager);
+            var windowsOnGridController = new WindowsOnGridController(dummyHotkeyConfiguration, grids, windowManager);
+            windowsOnGridController.LoadGrid(this, new GridSelectedEventArgs{Id = 0});
 
             //when
             dummyHotkeyConfiguration.Left.HotkeyPressed += Raise.WithEmpty();
