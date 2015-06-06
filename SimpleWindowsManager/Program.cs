@@ -32,13 +32,11 @@
             var gridFactory = new GridFactory(new ManagedWindowsApiWindowManager());
             var grids = gridManagerConfig.GridConfigurations.Select(gridFactory.FromConfig).ToList();
 
-            var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey);
-
             var windowsOnGridController = new WindowsOnGridController(
-                bindingsConfig.WindowGridConfiguration, 
-                grids);
+                bindingsConfig.WindowGridConfiguration);
 
-            windowsOnGridController.LoadGrid(this, new GridSelectedEventArgs {Id = 0});
+            var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey);
+            windowsOnGridController.LoadGrid(grids[0]);
 
             Application.Run(mainUi);
 

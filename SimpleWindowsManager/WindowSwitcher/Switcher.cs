@@ -107,9 +107,4 @@
             base.Dispose();
         }
     }
-
-    public class GridSelectedEventArgs : EventArgs
-    {
-        public int Id { get; set; }
-    }
 }

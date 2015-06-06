@@ -51,6 +51,7 @@
     <Compile Include="GridFactorySpecification.cs" />
     <Compile Include="Halp\DummyWindowRepresentation.cs" />
     <Compile Include="GridSpecification.cs" />
+    <Compile Include="GridSwitcherSpecification.cs" />
     <Compile Include="WindowsOnGridControllerSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
