@@ -35,12 +35,21 @@
                         }
                     }
                 };
+                var oneScreenExample = new GridConfig
+                {
+                    Name = "laptop",
+                    GridElements = new[]
+                    {
+                        new Dimensions(new Point(0, 0), new Size(960, 540))
+                    }
+                };
 
                 return new GridManagerConfig
                 {
                     GridConfigurations = new[]
                     {
-                        twoScreensExample
+                        twoScreensExample,
+                        oneScreenExample
                     }
                 };
             }
