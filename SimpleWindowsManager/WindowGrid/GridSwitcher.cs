@@ -1,5 +1,6 @@
 ﻿namespace SimpleWindowsManager.WindowGrid
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
     using Configuration;
@@ -19,9 +20,32 @@
             _gridFactory = gridFactory;
             _windowsOnGridController = windowsOnGridController;
 
-            LoadGridList();
+            _gridList.SelectedIndexChanged += LoadNewSelectedGrid;
 
-            _windowsOnGridController.LoadGrid(GetGrid(0));
+            SetupGridList();
+        }
+
+        private void LoadNewSelectedGrid(object sender, EventArgs e)
+        {
+            LoadGrid(_gridList.SelectedIndex);
+            Hide();
+        }
+        
+        private void LoadGrid(int selectedIndex)
+        {
+            _windowsOnGridController.LoadGrid(GetGrid(selectedIndex));
+        }
+
+        private void SetupGridList()
+        {
+            foreach (var grid in _gridConfigs)
+            {
+                _gridList.Items.Add(grid);
+            }
+
+            const int initialGridIndex = 0;
+            _gridList.SelectedIndex = initialGridIndex;
+            LoadGrid(initialGridIndex);
         }
 
         private Grid GetGrid(int gridIndex)
@@ -29,14 +53,6 @@
             var grid = _gridFactory.FromConfig(_gridConfigs[gridIndex]);
 
             return grid;
-        }
-
-        private void LoadGridList()
-        {
-            foreach (var grid in _gridConfigs)
-            {
-                _gridList.Items.Add(grid);
-            }
         }
     }
 }

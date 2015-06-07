@@ -1,7 +1,6 @@
 ﻿namespace SimpleWindowsManager
 {
     using System;
-    using System.Linq;
     using System.Windows.Forms;
     using Common.Configuration;
     using Common.Hotkeys;
@@ -30,13 +29,11 @@
 
             var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("grindManagerConfig.json");
             var gridFactory = new GridFactory(new ManagedWindowsApiWindowManager());
-            var grids = gridManagerConfig.GridConfigurations.Select(gridFactory.FromConfig).ToList();
 
             var windowsOnGridController = new WindowsOnGridController(
                 bindingsConfig.WindowGridConfiguration);
 
-            var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey);
-            windowsOnGridController.LoadGrid(grids[0]);
+            var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey, new GridSwitcher(gridManagerConfig.GridConfigurations, gridFactory, windowsOnGridController));
 
             Application.Run(mainUi);
 

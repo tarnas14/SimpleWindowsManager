@@ -9,18 +9,21 @@
     using Common.Hotkeys;
     using Common.Windows;
     using Properties;
+    using WindowGrid;
 
     public partial class Switcher : Form
     {
+        private readonly GridSwitcher _gridSwitcher;
         private NotifyIcon _notifyIcon;
 
-        public Switcher(GlobalHotkey switcherHotkey)
+        public Switcher(GlobalHotkey switcherHotkey, GridSwitcher gridSwitcher)
         {
             InitializeComponent();
             InitializeTrayIcon();
             SetupGlobalHotkey(switcherHotkey);
             SetupWindowSelection();
             HideWindowFromAltTabList();
+            _gridSwitcher = gridSwitcher;
         }
 
         private void HideWindowFromAltTabList()
@@ -37,21 +40,29 @@
 
             var contextMenu = new ContextMenu();
             var bringToFrontMenuItem = contextMenu.MenuItems.Add("Bring to front");
+            var switchGridMenuItem = contextMenu.MenuItems.Add("Switch grid");
             var exitMenuItem = contextMenu.MenuItems.Add("Exit");
             _notifyIcon.ContextMenu = contextMenu;
 
+            _notifyIcon.DoubleClick += BringSwitcherToFront;
             bringToFrontMenuItem.Click += BringSwitcherToFront;
+            switchGridMenuItem.Click += SwitchGrid;
             exitMenuItem.Click += CloseSwitcher;
-        }
-
-        private void CloseSwitcher(object sender, EventArgs e)
-        {
-            Close();
         }
 
         private void BringSwitcherToFront(object sender, EventArgs e)
         {
             ShowSwitcher();
+        }
+
+        private void SwitchGrid(object sender, EventArgs e)
+        {
+            _gridSwitcher.ShowDialog();
+        }
+
+        private void CloseSwitcher(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void SetupGlobalHotkey(GlobalHotkey switcherHotkey)
