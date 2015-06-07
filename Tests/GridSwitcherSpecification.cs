@@ -6,7 +6,7 @@
     using FakeItEasy;
     using NUnit.Framework;
     using SimpleWindowsManager.WindowGrid;
-    using SimpleWindowsManager.WindowGrid.GridSystem;
+    using SimpleWindowsManager.WindowGrid.Configuration;
 
     public class GridSwitcherSpecification
     {
@@ -15,8 +15,8 @@
         {
             //given
             var activeWindow = A.Fake<WindowRepresentation>();
-            var dimensions = new Dimensions(new Point(0, 0), new Size(100, 100));
-            A.CallTo(() => activeWindow.Dimensions).Returns(dimensions);
+            var windowDimensions = new Dimensions(new Point(0, 0), new Size(100, 100));
+            A.CallTo(() => activeWindow.Dimensions).Returns(windowDimensions);
 
             var windowManager = A.Fake<WindowManager>();
             A.CallTo(() => windowManager.GetActiveWindow()).Returns(activeWindow);
@@ -27,18 +27,24 @@
             A.CallTo(() => dummyHotkeyConfiguration.Up).Returns(A.Fake<GlobalHotkey>());
             A.CallTo(() => dummyHotkeyConfiguration.Down).Returns(A.Fake<GlobalHotkey>());
 
-            var firstGrid = new Grid(windowManager);
-            var gridElement = new SquareGridElement(new Dimensions(new Point(0, 0), new Size(1, 1)));
-            firstGrid.AddElement(gridElement);
+            var gridElementDimensions = new Dimensions(new Point(0, 0), new Size(1, 1));
 
             var windowsOnGridController = new WindowsOnGridController(dummyHotkeyConfiguration);
-            new GridSwitcher(new []{firstGrid}, windowsOnGridController);
+            var gridConfigs = new[]
+            {
+                new GridConfig
+                {
+                    Name = "asdf", GridElements = new [] { gridElementDimensions }
+                }
+            };
+            var gridFactory = new GridFactory(windowManager);
+            new GridSwitcher(gridConfigs, gridFactory, windowsOnGridController);
 
             //when
             dummyHotkeyConfiguration.Left.HotkeyPressed += Raise.WithEmpty();
 
             //then
-            A.CallTo(() => activeWindow.SetDimensions(A<Dimensions>.That.Matches(newDimensions => newDimensions.Equals(gridElement.Dimensions)))).MustHaveHappened();
+            A.CallTo(() => activeWindow.SetDimensions(A<Dimensions>.That.Matches(newDimensions => newDimensions.Equals(gridElementDimensions)))).MustHaveHappened();
         }
     }
 }

@@ -53,7 +53,12 @@
     <Compile Include="WindowGrid\Configuration\GridFactory.cs" />
     <Compile Include="WindowGrid\Configuration\GridManagerConfig.cs" />
     <Compile Include="WindowGrid\Configuration\NeighboursMap.cs" />
-    <Compile Include="WindowGrid\GridSwitcher.cs" />
+    <Compile Include="WindowGrid\GridSwitcher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WindowGrid\GridSwitcher.Designer.cs">
+      <DependentUpon>GridSwitcher.cs</DependentUpon>
+    </Compile>
     <Compile Include="WindowGrid\GridSystem\Grid.cs" />
     <Compile Include="WindowGrid\GridSystem\GridElement.cs" />
     <Compile Include="WindowGrid\GridSystem\NullGridElement.cs" />
@@ -74,6 +79,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="WindowGrid\GridSwitcher.resx">
+      <DependentUpon>GridSwitcher.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WindowSwitcher\AutoCompleteCombobox.resx">
       <DependentUpon>AutoCompleteCombobox.cs</DependentUpon>
     </EmbeddedResource>

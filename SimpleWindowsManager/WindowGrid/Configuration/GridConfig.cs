@@ -9,5 +9,10 @@ namespace SimpleWindowsManager.WindowGrid.Configuration
         public IList<Dimensions> GridElements { get; set; }
         public IList<NeighboursMap> NeighbourMap { get; set; }
         public int MainElement { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
