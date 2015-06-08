@@ -85,6 +85,7 @@
                 return;
             }
             selectedWindow.BringToFront();
+            Hide();
         }
 
         private void SelectWindow(object sender, EventArgs e)
