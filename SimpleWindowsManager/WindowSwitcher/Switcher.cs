@@ -100,9 +100,22 @@
                 var searchable = new List<ICanBeSearchedFor>();
                 var windows = WindowLister.GetOpenWindows();
                 searchable.AddRange(windows);
-                searchable.Where(element => _windowTitles.Values.All(window => window.Id != element.Id)).ToList().ForEach(_windowTitles.Values.Add);
-                _windowTitles.Values.ToList().RemoveAll(window => searchable.All(element => element.Id != window.Id));
+                AddNewWindowsToList(searchable);
+                RemoveUnreachableWindows(searchable);
             });
+        }
+
+        private void AddNewWindowsToList(IEnumerable<ICanBeSearchedFor> currentlyAvailableWindows)
+        {
+            currentlyAvailableWindows.Where(element => _windowTitles.Values.All(window => window.Id != element.Id))
+                .ToList()
+                .ForEach(_windowTitles.Values.Add);
+        }
+
+        private void RemoveUnreachableWindows(IEnumerable<ICanBeSearchedFor> currentlyAvailableWindows)
+        {
+            _windowTitles.Values.ToList()
+                .RemoveAll(window => currentlyAvailableWindows.All(element => element.Id != window.Id || element.Id == 0));
         }
 
         private void ShowSwitcher()
