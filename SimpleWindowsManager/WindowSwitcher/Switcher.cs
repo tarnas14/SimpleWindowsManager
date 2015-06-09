@@ -116,7 +116,7 @@
         private void RemoveUnreachableWindows(IEnumerable<ICanBeSearchedFor> currentlyAvailableWindows)
         {
             _windowTitles.Values.ToList()
-                .RemoveAll(window => currentlyAvailableWindows.All(element => element.Id != window.Id || element.Id == 0));
+                .RemoveAll(window => currentlyAvailableWindows.All(element => element.Id != window.Id || window.Id == 0));
         }
 
         private void ShowSwitcher()

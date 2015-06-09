@@ -13,7 +13,8 @@ namespace Common.Windows
 
         private static bool AWindowWeCanGetTo(SystemWindow systemWindow)
         {
-            return !string.IsNullOrEmpty(systemWindow.Title) && systemWindow.Process.ProcessName != "explorer" && systemWindow.Visible;
+            var currentAppId = System.Diagnostics.Process.GetCurrentProcess().Id;
+            return !string.IsNullOrEmpty(systemWindow.Title) && systemWindow.Process.ProcessName != "explorer" && systemWindow.Visible && systemWindow.Process.Id != currentAppId;
         }
     }
 }

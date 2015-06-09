@@ -27,7 +27,7 @@
         {
             var bindingsConfig = ConfigurationFactory.FromFile<HotkeyBindingsConfiguration>("bindings.json");
 
-            var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("grindManagerConfig.json");
+            var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("gridManagerConfig.json");
             var gridFactory = new GridFactory(new ManagedWindowsApiWindowManager());
 
             var windowsOnGridController = new WindowsOnGridController(

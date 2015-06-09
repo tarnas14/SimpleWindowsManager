@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
-    using Common;
     using Common.Windows;
 
     public partial class AutoCompleteCombobox : UserControl
