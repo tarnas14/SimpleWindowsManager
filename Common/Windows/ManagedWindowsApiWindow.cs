@@ -40,7 +40,7 @@ namespace Common.Windows
 
         public int Id
         {
-            get { return _systemWindow.Process.Id; }
+            get { return _systemWindow.HWnd.ToInt32(); }
         }
 
         public void BringToFront()

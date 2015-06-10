@@ -108,15 +108,18 @@
 
         private void AddNewWindowsToList(IEnumerable<ICanBeSearchedFor> currentlyAvailableWindows)
         {
-            currentlyAvailableWindows.Where(element => _windowTitles.Values.All(window => window.Id != element.Id))
-                .ToList()
-                .ForEach(_windowTitles.Values.Add);
+            var windowsToAdd =
+                currentlyAvailableWindows.Where(
+                    availableWindow => !_windowTitles.Values.Any(value => value.Id == availableWindow.Id));
+            windowsToAdd.ToList().ForEach(windowToAdd => _windowTitles.Values.Add(windowToAdd));
         }
 
         private void RemoveUnreachableWindows(IEnumerable<ICanBeSearchedFor> currentlyAvailableWindows)
         {
-            _windowTitles.Values.ToList()
-                .RemoveAll(window => currentlyAvailableWindows.All(element => element.Id != window.Id || window.Id == 0));
+            var itemsToDelete =
+                _windowTitles.Values.Where(
+                    window => currentlyAvailableWindows.All(element => element.Id != window.Id) || window.Id == 0);
+            itemsToDelete.ToList().ForEach(item => _windowTitles.Values.Remove(item));
         }
 
         private void ShowSwitcher()
