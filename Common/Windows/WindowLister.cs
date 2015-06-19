@@ -8,13 +8,25 @@ namespace Common.Windows
     {
         public static IList<ManagedWindowsApiWindow> GetOpenWindows()
         {
-            return SystemWindow.AllToplevelWindows.Where(AWindowWeCanGetTo).Select(systemWindow => new ManagedWindowsApiWindow(systemWindow)).OrderBy(representation => representation.ToString()).ToList();
+            var windowsWeCanGetTo = SystemWindow.AllToplevelWindows.Where(AWindowWeCanGetTo).Select(systemWindow => new ManagedWindowsApiWindow(systemWindow));
+            return windowsWeCanGetTo.OrderBy(representation => representation.ToString()).ToList();
         }
 
         private static bool AWindowWeCanGetTo(SystemWindow systemWindow)
         {
             var currentAppId = System.Diagnostics.Process.GetCurrentProcess().Id;
-            return !string.IsNullOrEmpty(systemWindow.Title) && systemWindow.Process.ProcessName != "explorer" && systemWindow.Visible && systemWindow.Process.Id != currentAppId;
+
+            var windowIsAFolder = systemWindow.Process.ProcessName == "explorer" &&
+                                  systemWindow.ClassName == "CabinetWClass";
+
+            var windowHasATitle = !string.IsNullOrEmpty(systemWindow.Title);
+            var windowIsNotExplorerWindow = systemWindow.Process.ProcessName != "explorer";
+            var notSelf = systemWindow.Process.Id != currentAppId;
+
+            return
+                notSelf &&
+                windowHasATitle &&
+                (windowIsNotExplorerWindow || windowIsAFolder);
         }
     }
 }
