@@ -28,7 +28,7 @@ namespace Common.Windows
 
         public override string ToString()
         {
-            return string.Format("{0}.{1} - {2}", _systemWindow.Process.ProcessName, Title, Dimensions);
+            return string.Format("{0} - {1}", _systemWindow.Process.ProcessName, Title);
         }
 
         public bool Matches(string searchExpression)
