@@ -1,6 +1,7 @@
 namespace Common.Windows
 {
     using System;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
     using ManagedWinapi.Windows;
@@ -33,9 +34,11 @@ namespace Common.Windows
 
         public bool Matches(string searchExpression)
         {
-            return 
-                _systemWindow.Process.ProcessName.ToLowerInvariant().Contains(searchExpression.ToLowerInvariant()) || 
-                Title.ToLowerInvariant().Contains(searchExpression.ToLowerInvariant());
+            var expression = searchExpression.ToLowerInvariant();
+
+            var expressions = expression.Split(' ');
+
+            return expressions.All(e => _systemWindow.Process.ProcessName.ToLowerInvariant().Contains(e) || Title.ToLowerInvariant().Contains(e));
         }
 
         public int Id
