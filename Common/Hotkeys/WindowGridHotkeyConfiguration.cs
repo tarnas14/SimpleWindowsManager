@@ -30,5 +30,10 @@
             _up.Dispose();
             _down.Dispose();
         }
+
+        public bool Enable()
+        {
+            return _left.Enable() && _right.Enable() && _down.Enable() && _up.Enable();
+        }
     }
 }

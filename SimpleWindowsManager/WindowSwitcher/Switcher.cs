@@ -18,9 +18,9 @@
 
         public Switcher(GlobalHotkey switcherHotkey, GridSwitcher gridSwitcher)
         {
+            BindGlobalHotkey(switcherHotkey);
             InitializeComponent();
             InitializeTrayIcon();
-            SetupGlobalHotkey(switcherHotkey);
             SetupWindowSelection();
             HideWindowFromAltTabList();
             _gridSwitcher = gridSwitcher;
@@ -65,9 +65,8 @@
             Close();
         }
 
-        private void SetupGlobalHotkey(GlobalHotkey switcherHotkey)
+        private void BindGlobalHotkey(GlobalHotkey switcherHotkey)
         {
-            switcherHotkey.Enable();
             switcherHotkey.HotkeyPressed += SelectWindow;
         }
 

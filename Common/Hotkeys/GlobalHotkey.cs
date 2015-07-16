@@ -4,7 +4,6 @@
 
     public interface GlobalHotkey
     {
-        void Enable();
         event EventHandler HotkeyPressed;
     }
 }

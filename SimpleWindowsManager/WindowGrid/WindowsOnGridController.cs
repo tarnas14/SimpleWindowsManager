@@ -21,16 +21,12 @@
 
         private void BindEverything()
         {
-            _hotkeyConfiguration.Left.Enable();
             _hotkeyConfiguration.Left.HotkeyPressed += _moveLeft;
 
-            _hotkeyConfiguration.Right.Enable();
             _hotkeyConfiguration.Right.HotkeyPressed += _moveRight;
 
-            _hotkeyConfiguration.Up.Enable();
             _hotkeyConfiguration.Up.HotkeyPressed += _moveUp;
 
-            _hotkeyConfiguration.Down.Enable();
             _hotkeyConfiguration.Down.HotkeyPressed += _moveDown;
         }
 

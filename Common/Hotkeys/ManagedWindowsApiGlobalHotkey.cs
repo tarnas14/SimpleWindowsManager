@@ -43,9 +43,18 @@
             set { _hotkey.KeyCode = value; }
         }
 
-        public void Enable()
+        public bool Enable()
         {
-            _hotkey.Enabled = true;
+            try
+            {
+                _hotkey.Enabled = true;
+
+                return true;
+            }
+            catch (HotkeyAlreadyInUseException)
+            {
+                return false;
+            }
         }
 
         public event EventHandler HotkeyPressed

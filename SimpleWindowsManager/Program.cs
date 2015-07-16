@@ -27,18 +27,24 @@
         {
             var bindingsConfig = ConfigurationFactory.FromFile<HotkeyBindingsConfiguration>("bindings.json");
 
-            var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("gridManagerConfig.json");
-            var gridFactory = new GridFactory(new ManagedWindowsApiWindowManager());
+            if (bindingsConfig.WindowSwitcherHotkey.Enable() && bindingsConfig.WindowGridConfiguration.Enable())
+            {
+                var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("gridManagerConfig.json");
+                var gridFactory = new GridFactory(new ManagedWindowsApiWindowManager());
 
-            var windowsOnGridController = new WindowsOnGridController(
-                bindingsConfig.WindowGridConfiguration);
+                var windowsOnGridController = new WindowsOnGridController(bindingsConfig.WindowGridConfiguration);
 
-            var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey, new GridSwitcher(gridManagerConfig.GridConfigurations, gridFactory, windowsOnGridController));
+                var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey, new GridSwitcher(gridManagerConfig.GridConfigurations, gridFactory, windowsOnGridController));
 
-           Application.Run(mainUi);
+                Application.Run(mainUi);
 
-            mainUi.Dispose();
-            bindingsConfig.Dispose();
+                mainUi.Dispose();
+                bindingsConfig.Dispose();
+                return;
+            }
+
+            MessageBox.Show("Configured hotkey is already taken, plz reconfigure and start again.", "Hotkey taken",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }
