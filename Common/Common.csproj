@@ -55,7 +55,7 @@
     <Compile Include="GridDirections.cs" />
     <Compile Include="Hotkeys\GridHotkeyConfiguration.cs" />
     <Compile Include="Hotkeys\ManagedWindowsApiGlobalHotkey.cs" />
-    <Compile Include="Hotkeys\HotkeyBindingsConfiguration.cs" />
+    <Compile Include="Configuration\SimpleWindowsManagerConfiguration.cs" />
     <Compile Include="Hotkeys\WindowGridHotkeyConfiguration.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Size.cs" />

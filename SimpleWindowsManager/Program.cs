@@ -3,10 +3,7 @@
     using System;
     using System.Windows.Forms;
     using Common.Configuration;
-    using Common.Hotkeys;
     using Common.Windows;
-    using WindowGrid;
-    using WindowGrid.Configuration;
     using WindowSwitcher;
 
     class Program
@@ -25,16 +22,11 @@
 
         public void Run()
         {
-            var bindingsConfig = ConfigurationFactory.FromFile<HotkeyBindingsConfiguration>("bindings.json");
+            var bindingsConfig = ConfigurationFactory.FromFile<SimpleWindowsManagerConfiguration>("bindings.json");
 
-            if (bindingsConfig.WindowSwitcherHotkey.Enable() && bindingsConfig.WindowGridConfiguration.Enable())
+            if (bindingsConfig.WindowSwitcherHotkey.Enable())
             {
-                var gridManagerConfig = ConfigurationFactory.FromFile<GridManagerConfig>("gridManagerConfig.json");
-                var gridFactory = new GridFactory(new ManagedWindowsApiWindowManager());
-
-                var windowsOnGridController = new WindowsOnGridController(bindingsConfig.WindowGridConfiguration);
-
-                var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey, new GridSwitcher(gridManagerConfig.GridConfigurations, gridFactory, windowsOnGridController));
+                var mainUi = new Switcher(bindingsConfig.WindowSwitcherHotkey, new WindowLister(bindingsConfig.WindowClassNamesToIgnore));
 
                 Application.Run(mainUi);
 

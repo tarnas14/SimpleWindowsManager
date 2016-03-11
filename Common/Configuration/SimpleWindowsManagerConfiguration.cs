@@ -1,12 +1,14 @@
-﻿namespace Common.Hotkeys
+﻿namespace Common.Configuration
 {
-    using Configuration;
     using System;
+    using System.Collections.Generic;
     using System.Windows.Forms;
+    using Hotkeys;
 
-    public class HotkeyBindingsConfiguration : Configuration<HotkeyBindingsConfiguration>, IDisposable
+    public class SimpleWindowsManagerConfiguration : Configuration<SimpleWindowsManagerConfiguration>, IDisposable
     {
         public ManagedWindowsApiGlobalHotkey WindowSwitcherHotkey { get; set; }
+        public IEnumerable<string> WindowClassNamesToIgnore { get; set; }
 
         public WindowGridHotkeyConfiguration WindowGridConfiguration { get; set; }
 
@@ -16,11 +18,11 @@
             WindowGridConfiguration.Dispose();
         }
 
-        public HotkeyBindingsConfiguration Default
+        public SimpleWindowsManagerConfiguration Default
         {
             get
             {
-                return new HotkeyBindingsConfiguration
+                return new SimpleWindowsManagerConfiguration
                 {
                     WindowSwitcherHotkey = new ManagedWindowsApiGlobalHotkey
                     {
@@ -29,6 +31,7 @@
                         WindowsKey = true,
                         KeyCode = Keys.Q
                     },
+                    WindowClassNamesToIgnore = new [] { "Windows.UI.Core.CoreWindow", "ApplicationFrameWindow", "Progman" },
                     WindowGridConfiguration = new WindowGridHotkeyConfiguration(
                         new ManagedWindowsApiGlobalHotkey { Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Left },
                         new ManagedWindowsApiGlobalHotkey { Ctrl = true, Shift = true, WindowsKey = true, KeyCode = Keys.Right },

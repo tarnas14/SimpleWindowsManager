@@ -3,9 +3,15 @@
     using System;
     using System.IO;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
     public static class ConfigurationFactory
     {
+        private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
+        {
+            Converters = new[] { new StringEnumConverter { CamelCaseText = false } }
+        };
+
         public static T FromFile<T>(string bindingsFilePath) where T : Configuration<T>
         {
             if (!File.Exists(bindingsFilePath))
@@ -18,7 +24,7 @@
 
             var fileContents = File.ReadAllText(bindingsFilePath);
 
-            var configuration = JsonConvert.DeserializeObject<T>(fileContents);
+            var configuration = JsonConvert.DeserializeObject<T>(fileContents, _jsonSerializerSettings);
 
             if (configuration == null)
             {
@@ -33,7 +39,7 @@
 
         private static void SetupDefaultBindigFile(object configuration, string configFilePath)
         {
-            var serializedConfig = JsonConvert.SerializeObject(configuration);
+            var serializedConfig = JsonConvert.SerializeObject(configuration, _jsonSerializerSettings);
 
             File.WriteAllText(configFilePath, serializedConfig);
         }

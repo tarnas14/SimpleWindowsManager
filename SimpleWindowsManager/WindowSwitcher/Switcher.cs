@@ -9,21 +9,20 @@
     using Common.Hotkeys;
     using Common.Windows;
     using Properties;
-    using WindowGrid;
 
     public partial class Switcher : Form
     {
-        private readonly GridSwitcher _gridSwitcher;
         private NotifyIcon _notifyIcon;
+        private readonly WindowLister _windowLister;
 
-        public Switcher(GlobalHotkey switcherHotkey, GridSwitcher gridSwitcher)
+        public Switcher(GlobalHotkey switcherHotkey, WindowLister windowLister)
         {
+            _windowLister = windowLister;
             BindGlobalHotkey(switcherHotkey);
             InitializeComponent();
             InitializeTrayIcon();
             SetupWindowSelection();
             HideWindowFromAltTabList();
-            _gridSwitcher = gridSwitcher;
         }
 
         private void HideWindowFromAltTabList()
@@ -40,24 +39,17 @@
 
             var contextMenu = new ContextMenu();
             var bringToFrontMenuItem = contextMenu.MenuItems.Add("Bring to front");
-            var switchGridMenuItem = contextMenu.MenuItems.Add("Switch grid");
             var exitMenuItem = contextMenu.MenuItems.Add("Exit");
             _notifyIcon.ContextMenu = contextMenu;
 
             _notifyIcon.DoubleClick += BringSwitcherToFront;
             bringToFrontMenuItem.Click += BringSwitcherToFront;
-            switchGridMenuItem.Click += SwitchGrid;
             exitMenuItem.Click += CloseSwitcher;
         }
 
         private void BringSwitcherToFront(object sender, EventArgs e)
         {
             ShowSwitcher();
-        }
-
-        private void SwitchGrid(object sender, EventArgs e)
-        {
-            _gridSwitcher.ShowDialog();
         }
 
         private void CloseSwitcher(object sender, EventArgs e)
@@ -98,7 +90,7 @@
             Task.Run(() =>
             {
                 var searchable = new List<ICanBeSearchedFor>();
-                var windows = WindowLister.GetOpenWindows();
+                var windows = _windowLister.GetOpenWindows();
                 searchable.AddRange(windows);
                 AddNewWindowsToList(searchable);
                 RemoveUnreachableWindows(searchable);
@@ -124,8 +116,8 @@
         private void ShowSwitcher()
         {
             Visible = true;
-            BringToFront();
             Activate();
+            BringToFront();
         }
 
         public new void Dispose()
