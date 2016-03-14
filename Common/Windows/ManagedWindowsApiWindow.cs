@@ -15,21 +15,15 @@ namespace Common.Windows
             _systemWindow = systemWindow;
         }
 
-        public IntPtr MainWindowPointer
-        {
-            get { return _systemWindow.HWnd; }
-        }
+        public IntPtr MainWindowPointer => _systemWindow.HWnd;
 
-        public string Title
-        {
-            get { return _systemWindow.Title; }
-        }
+        public string Title => _systemWindow.Title;
 
         public string ClassName { get; set; }
 
         public override string ToString()
         {
-            return string.Format("{0} - {1}", _systemWindow.Process.ProcessName, Title);
+            return $"{_systemWindow.Process.ProcessName} - {Title}";
         }
 
         public bool Matches(string searchExpression)
@@ -41,10 +35,7 @@ namespace Common.Windows
             return expressions.All(e => _systemWindow.Process.ProcessName.ToLowerInvariant().Contains(e) || Title.ToLowerInvariant().Contains(e));
         }
 
-        public int Id
-        {
-            get { return _systemWindow.HWnd.ToInt32(); }
-        }
+        public int Id => _systemWindow.HWnd.ToInt32();
 
         public void BringToFront()
         {
@@ -78,12 +69,6 @@ namespace Common.Windows
             _systemWindow.Position = new RECT(dimensions.Origin.X, dimensions.Origin.Y, dimensions.Origin.X + dimensions.Size.Width, dimensions.Origin.Y + dimensions.Size.Height);
         }
 
-        public Dimensions Dimensions
-        {
-            get
-            {
-                return new Dimensions(new Point(_systemWindow.Position.Location.X, _systemWindow.Position.Location.Y), new Size(_systemWindow.Position.Size.Width, _systemWindow.Position.Size.Height));
-            }
-        }
+        public Dimensions Dimensions => new Dimensions(new Point(_systemWindow.Position.Location.X, _systemWindow.Position.Location.Y), new Size(_systemWindow.Position.Size.Width, _systemWindow.Position.Size.Height));
     }
 }

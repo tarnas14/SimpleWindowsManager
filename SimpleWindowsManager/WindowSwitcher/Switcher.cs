@@ -100,16 +100,14 @@
         private void AddNewWindowsToList(IEnumerable<ICanBeSearchedFor> currentlyAvailableWindows)
         {
             var windowsToAdd =
-                currentlyAvailableWindows.Where(
-                    availableWindow => !_windowTitles.Values.Any(value => value.Id == availableWindow.Id));
+                currentlyAvailableWindows.Where(availableWindow => !_windowTitles.Values.Any(value => value.Id == availableWindow.Id));
             windowsToAdd.ToList().ForEach(windowToAdd => _windowTitles.Values.Add(windowToAdd));
         }
 
         private void RemoveUnreachableWindows(IEnumerable<ICanBeSearchedFor> currentlyAvailableWindows)
         {
             var itemsToDelete =
-                _windowTitles.Values.Where(
-                    window => currentlyAvailableWindows.All(element => element.Id != window.Id) || window.Id == 0);
+                _windowTitles.Values.Where(window => currentlyAvailableWindows.All(element => element.Id != window.Id) || window.Id == 0);
             itemsToDelete.ToList().ForEach(item => _windowTitles.Values.Remove(item));
         }
 

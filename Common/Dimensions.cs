@@ -2,8 +2,8 @@ namespace Common
 {
     public class Dimensions
     {
-        public Point Origin { get; private set; }
-        public Size Size { get; private set; }
+        public Point Origin { get; }
+        public Size Size { get; }
 
         public Dimensions(Point origin, Size size)
         {
@@ -25,7 +25,7 @@ namespace Common
 
         public override string ToString()
         {
-            return string.Format("[({0},{1}), ({2}x{3})]", Origin.X, Origin.Y, Size.Width, Size.Height);
+            return $"[({Origin.X},{Origin.Y}), ({Size.Width}x{Size.Height})]";
         }
     }
 }
